@@ -3,5 +3,5 @@
 # Introduction
 
 # Usage
-## Graph Construction
-### Split 
+## 1. Graph Construction
+### (a) Split 
