@@ -3,4 +3,5 @@
 # Introduction
 
 # Usage
-## Preprocessing
+## Graph Construction
+### Split 
