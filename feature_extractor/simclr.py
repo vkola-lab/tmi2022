@@ -13,7 +13,7 @@ try:
     from apex import amp
 
     apex_support = True
-except:
+except:https://github.com/vkola-lab/graphCAM/blob/main/feature_extractor/simclr.py
     print("Please install apex for mixed precision training from: https://github.com/NVIDIA/apex")
     apex_support = False
 
@@ -90,7 +90,7 @@ class SimCLR(object):
         n_iter = 0
         valid_n_iter = 0
         best_valid_loss = np.inf
-        print(model_checkpoints_folder)
+        
         for epoch_counter in range(self.config['epochs']):
             for (xis, xjs) in train_loader:
                 optimizer.zero_grad()
