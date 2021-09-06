@@ -9,7 +9,7 @@ n_gpu: 2
 gpu_ids: (0,1)
 
 model:
-  out_dim: 256
+  out_dim: 512
   base_model: "resnet18"
 
 dataset:
