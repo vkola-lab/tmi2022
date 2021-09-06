@@ -17,6 +17,10 @@ Mandatory parameters:
 <li>-M set to -1 by default to tile the image at all magnifications. Set it to the value of the desired magnification to tile only at that magnification and save space</li>
 
 ### (b) Training Patch Feature Extractor
+Navigate to './feature_extractor' and edit the attributes in the configuration file 'config.yaml'. The trained feature extractor based on contrastive learning is saved in folder './feature_extractor/runs'. We train the model with patches cropped in single magnification (20X).
+```
+python run.py
+```
 
 ### (c) Constructing Graph
 
