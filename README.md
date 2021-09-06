@@ -9,6 +9,9 @@ This repository contains a PyTorch implementation of a deep learning based graph
 
 # Usage
 ## 1. Graph Construction
+<p align="center">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="70%" height="70%">
+</p>
 ### (a) Tiling Patch 
 ```
 python src/tile_WSI.py -s 512 -e 0 -j 32 -B 50 -M 20 -o <full_patch_to_output_folder> "full_path_to_input_slides/*/*.svs"
