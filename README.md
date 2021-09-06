@@ -15,4 +15,5 @@ Mandatory parameters:
 <li>-B is Max Percentage of Background allowed: 50% (tiles removed if background percentage above this value)</li>
 <li>-o is the path were the output images must be saved</li>
 <li>-M set to -1 by default to tile the image at all magnifications. Set it to the value of the desired magnification to tile only at that magnification and save space</li>
+
 ### (b) Training Patch Feature Extractor
