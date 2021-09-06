@@ -4,7 +4,7 @@
 This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image classification.
 
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/master/figures/framework.png" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/framework.jpg" width="70%" height="70%">
 </p>
 
 # Usage
