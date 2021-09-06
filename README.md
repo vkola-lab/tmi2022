@@ -24,4 +24,4 @@ python run.py
 
 ### (c) Constructing Graph
 
-## 2. Training
+## 2. Training Graph-Transformer
