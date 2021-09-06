@@ -17,3 +17,7 @@ Mandatory parameters:
 <li>-M set to -1 by default to tile the image at all magnifications. Set it to the value of the desired magnification to tile only at that magnification and save space</li>
 
 ### (b) Training Patch Feature Extractor
+
+### (c) Constructing Graph
+
+## 2. Training
