@@ -10,7 +10,7 @@ This repository contains a PyTorch implementation of a deep learning based graph
 # Usage
 ## 1. Graph Construction
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="60%" height="60%">
 </p>
 
 ### (a) Tiling Patch 
