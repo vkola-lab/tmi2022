@@ -4,7 +4,7 @@
 
 # Usage
 ## 1. Graph Construction
-### (a) Patch Tiling
+### (a) Tiling Patch 
 ```
 python src/tile_WSI.py -s 512 -e 0 -j 32 -B 50 -M 20 -o <full_patch_to_output_folder> "full_path_to_input_slides/*/*.svs"
 ```
@@ -15,3 +15,4 @@ Mandatory parameters:
 <li>-B is Max Percentage of Background allowed: 50% (tiles removed if background percentage above this value)</li>
 <li>-o is the path were the output images must be saved</li>
 <li>-M set to -1 by default to tile the image at all magnifications. Set it to the value of the desired magnification to tile only at that magnification and save space</li>
+### (b) Training Patch Feature Extractor
