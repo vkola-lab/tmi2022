@@ -23,5 +23,9 @@ python run.py
 ```
 
 ### (c) Constructing Graph
+Go to './feature_extractor' and build graphs from patches.
+```
+python compute_feats.py --weights "path to pretrained feature extractor" --dataset "path to patches" --output "../graphs"
+```
 
 ## 2. Training Graph-Transformer
