@@ -1,6 +1,7 @@
 # A deep learning based graph-transformer for whole slide image classification
 
 # Introduction
+This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image classification.
 
 # Usage
 ## 1. Graph Construction
