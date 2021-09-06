@@ -7,6 +7,8 @@ This repository contains a PyTorch implementation of a deep learning based graph
 <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/framework.jpg" width="70%" height="70%">
 </p>
 
+To demon-strate the applicability of our approach, we selected 3,024 hematoxylin and eosin WSIs of lung tumors and the oneswith normal histology from the Clinical Proteomic  TumorAnalysis Consortium (CPTAC), the National Lung ScreeningTrial (NLST) and The Cancer Genome Atlas (TCGA) and developed a model to distinguish adenocarcinoma (LUAD) and squamous cell carcinoma (LSCC) from those that havenormal histology. 
+
 # Usage
 ## 1. Graph Construction
 <p align="center">
