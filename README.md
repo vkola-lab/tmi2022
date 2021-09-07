@@ -64,6 +64,8 @@ sample1 \t label1
 sample2 \t label2
 LUAD/C3N-00293-23 \t luad
 ...
+```
+
 ## 3. GraphCAM
 To generate GraphCAM of the model on the WSI and visualize the GraphCAM, run the following scripts:
 ```
