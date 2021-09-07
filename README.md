@@ -81,6 +81,8 @@ More GraphCAM examples:
 <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example2.PNG" width="70%" height="70%">
 </p>
 
+GraphCAMs generated on WSIs across the runs performed via 5-fold cross validation are shown above. The same set of WSI regions are highlighted by our method across the various  cross-validation folds, thus indicating consistency of our technique in highlighting salient regions of interest. 
+
 # Requirements
 <li> WSI software: PixelView (deepPath, Inc.) </li>
 Major dependencies are:
