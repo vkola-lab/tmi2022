@@ -4,15 +4,18 @@
 This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image (WSI) classification. We propose a Graph-Transformer (GT) network that fuses a graph representation of a WSI and a transformer that can generate WSI-level predictions in a computationally efficient fashion.
 
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/framework.jpg" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/framework.jpg" width="80%" height="80%">
 </p>
 
 To demonstrate the applicability of our approach, we selected 3,024 hematoxylin and eosin WSIs of lung tumors and the oneswith normal histology from the Clinical Proteomic  TumorAnalysis Consortium (CPTAC), the National Lung ScreeningTrial (NLST) and The Cancer Genome Atlas (TCGA) and developed a model to distinguish adenocarcinoma (LUAD) and squamous cell carcinoma (LSCC) from those that havenormal histology. The performance of the model on CPTAC and TCGA are reported in the form of receiver operating characteristic curve and precision-recall curve:
-
+<p align="center">
+  <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/cptac_roc_pr.png" width="30%" height="30%" />
+  <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/cptac_roc_pr.png" width="30%" height="30%" /> 
+</p>
 # Usage
 ## 1. Graph Construction
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="60%" height="60%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="70%" height="70%">
 </p>
 
 ### (a) Tiling Patch 
