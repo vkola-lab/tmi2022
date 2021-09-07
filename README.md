@@ -79,7 +79,7 @@ Note: Currently we only support generating GraphCAM for one WSI at each time.
 
 More GraphCAM examples:
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example2.PNG" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example2.PNG" width="80%" height="80%">
 </p>
 
 GraphCAMs generated on WSIs across the runs performed via 5-fold cross validation are shown above. The same set of WSI regions are highlighted by our method across the various  cross-validation folds, thus indicating consistency of our technique in highlighting salient regions of interest. 
