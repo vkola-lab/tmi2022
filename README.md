@@ -44,4 +44,6 @@ Run the following script to train and store the model and logging files under "g
 ```
 bash scripts/train.sh
 ```
+To evaluate the model. run
+```bash test.sh```
 ## 3. GraphCAM
