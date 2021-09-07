@@ -12,6 +12,7 @@ To demonstrate the applicability of our approach, we selected 3,024 hematoxylin 
   <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/cptac_roc_pr.png" width="30%" height="30%" />
   <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/cptac_roc_pr.png" width="30%" height="30%" /> 
 </p>
+
 # Usage
 ## 1. Graph Construction
 <p align="center">
