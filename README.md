@@ -1,7 +1,7 @@
 # A deep learning based graph-transformer for whole slide image classification
 
 # Introduction
-This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image classification. We propose a Graph-Transformer (GT) network that fuses a graph representation of a Wholse Slide Image (WSI) and a transformer that can generate WSI-level predictions in a computationally efficient fashion.
+This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image (WSI) classification. We propose a Graph-Transformer (GT) network that fuses a graph representation of a WSI and a transformer that can generate WSI-level predictions in a computationally efficient fashion.
 
 <p align="center">
 <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/framework.jpg" width="70%" height="70%">
