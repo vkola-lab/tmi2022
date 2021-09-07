@@ -75,6 +75,7 @@ To visualize the GraphCAM:
 ```
 2. bash scripts/vis_graphcam.sh
 ```
+Note: Currently we only support generating GraphCAM for one WSI at each time.
 
 More GraphCAM examples:
 <p align="center">
