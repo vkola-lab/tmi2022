@@ -67,9 +67,12 @@ LUAD/C3N-00293-23 \t luad
 ```
 
 ## 3. GraphCAM
-To generate GraphCAM of the model on the WSI and visualize the GraphCAM, run the following scripts:
+To generate GraphCAM of the model on the WSI:
 ```
 1. bash scripts/get_graphcam.sh
+```
+To visualize the GraphCAM:
+```
 2. bash scripts/vis_graphcam.sh
 ```
 
