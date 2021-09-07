@@ -13,7 +13,12 @@ To demonstrate the applicability of our approach, we selected 3,024 hematoxylin 
   <img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/cptac_roc_pr.png" width="30%" height="30%" /> 
 </p>
 
-To understand how our model processes WSI data and visualize regions that are highly associated with the class label, we proposed a novel class activation mapping technique called GraphCAM on graphs.
+To understand how our model processes WSI data and visualize regions that are highly associated with the class label, we proposed a novel class activation mapping technique called GraphCAM on graphs. see below:
+
+<p align="center">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example.PNG" width="70%" height="70%">
+</p>
+
 
 # Usage
 ## 1. Graph Construction
