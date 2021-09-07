@@ -45,7 +45,7 @@ python run.py
 ```
 
 ### (c) Constructing Graph
-Go to './feature_extractor' and build graphs from patches.
+Go to './feature_extractor' and build graphs from patches:
 ```
 python build_graphs.py --weights "path_to_pretrained_feature_extractor" --dataset "path_to_patches" --output "../graphs"
 ```
@@ -58,6 +58,11 @@ bash scripts/train.sh
 To evaluate the model. run
 ```bash scripts/test.sh```
 ## 3. GraphCAM
+To generate GraphCAM of the model on the WSI and visualize the GraphCAM, run the following scripts:
+```
+1. bash scripts/get_graphcam.sh
+2. bash scripts/vis_graphcam.sh
+```
 
 # Requirements
 <li> WSI software: PixelView (deepPath, Inc.) </li>
