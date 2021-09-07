@@ -40,5 +40,8 @@ python build_graphs.py --weights "path_to_pretrained_feature_extractor" --datase
 ```
 
 ## 2. Training Graph-Transformer
-
+Run the following script and store the model checkpoints and logging files under "graph_transformer/saved_models" and "graph_transformer/runs".
+```
+bash scripts/train.sh
+```
 ## 3. GraphCAM
