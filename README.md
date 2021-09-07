@@ -76,6 +76,11 @@ To visualize the GraphCAM:
 2. bash scripts/vis_graphcam.sh
 ```
 
+More GraphCAM examples:
+<p align="center">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example2.PNG" width="70%" height="70%">
+</p>
+
 # Requirements
 <li> WSI software: PixelView (deepPath, Inc.) </li>
 Major dependencies are:
