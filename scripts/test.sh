@@ -1,7 +1,7 @@
 export CUDA_VISIBLE_DEVICES=0
 python main.py \
 --n_class 3 \
---data_path "path_ti_graph_data" \
+--data_path "path_to_graph_data" \
 --val_set "test_set.txt" \
 --model_path "../graph_transformer/saved_models/" \
 --log_path "../graph_transformer/runs/" \
