@@ -68,7 +68,7 @@ def adj_matrix(csv_file_path, output):
             # sptial 
             path_j = csv_file_path[j]
             x_j, y_j = path_j.split('/')[-1].split('.')[0].split('_')
-            if abs(int(x_i)-int(x_j)) + abs(int(y_i)-int(y_j)) <= 2:
+            if abs(int(x_i)-int(x_j)) <=1 and abs(int(y_i)-int(y_j)) <= 1:
                 adj_s[i][j] = 1
                 adj_s[j][i] = 1
 
