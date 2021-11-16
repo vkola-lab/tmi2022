@@ -52,19 +52,6 @@ class Classifier(nn.Module):
         X = self.conv1(X, adj, mask)
         s = self.pool1(X)
 
-        # m = nn.Softmax(dim=1)
-        # kk = m(s[0])
-        # print(kk.shape)
-        # print(torch.max(kk))
-        # #print(torch.min(kk[2]))
-        # time.s
-        # print(s.shape)
-        # print(torch.argmax(s[0][0]))
-        # print(torch.argmax(s[0][1]))
-        # kk = torch.argmax(s[0], dim=1)
-        # print(kk)
-        # print(torch.unique(kk))
-
         if graphcam_flag:
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
