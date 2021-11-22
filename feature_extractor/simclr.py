@@ -13,7 +13,7 @@ try:
     from apex import amp
 
     apex_support = True
-except:https://github.com/vkola-lab/graphCAM/blob/main/feature_extractor/simclr.py
+except:
     print("Please install apex for mixed precision training from: https://github.com/NVIDIA/apex")
     apex_support = False
 
