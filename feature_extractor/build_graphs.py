@@ -107,8 +107,6 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
             for iteration, batch in enumerate(dataloader):
                 patches = batch['input'].float().cuda() 
                 feats, classes = i_classifier(patches)
-                print(feats.shape)
-                time.s
                 #feats = feats.cpu().numpy()
                 feats_list.extend(feats)
         
