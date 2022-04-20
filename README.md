@@ -21,7 +21,7 @@ To demonstrate the applicability of our approach, we selected 3,024 hematoxylin 
 # Usage
 ## 1. Graph Construction
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graph_construction.jpg" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/fig_b.JPG" width="70%" height="70%">
 </p>
 
 ### (a) Tiling Patch 
