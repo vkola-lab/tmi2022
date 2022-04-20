@@ -14,7 +14,7 @@ This repository contains a PyTorch implementation of a deep learning based graph
 To demonstrate the applicability of our approach, we selected 3,024 hematoxylin and eosin WSIs of lung tumors and the oneswith normal histology from the Clinical Proteomic  TumorAnalysis Consortium (CPTAC), the National Lung ScreeningTrial (NLST) and The Cancer Genome Atlas (TCGA) and developed a model to distinguish adenocarcinoma (LUAD) and squamous cell carcinoma (LSCC) from those that havenormal histology. To understand how our model processes WSI data and visualize regions that are highly associated with the class label, we proposed a novel class activation mapping technique called GraphCAM on graphs. see below:
 
 <p align="center">
-<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/GraphCAM_example.PNG" width="70%" height="70%">
+<img src="https://github.com/vkola-lab/graphCAM/blob/main/figures/graphcam_example.JPG" width="70%" height="70%">
 </p>
 
 
