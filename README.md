@@ -88,3 +88,4 @@ Major dependencies are:
 <li> python </li>
 <li> pytorch </li>
 <li> openslide-python </li>
+<li> Weights & Biases </li>
