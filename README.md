@@ -1,8 +1,6 @@
 # A graph-transformer for whole slide image classification
 
-# Updates
-03/25: Adding Weights & Biases (W&B) for model finetuning.
-
+This work is accepted in IEEE Transactions on Medical Imaging.
 
 # Introduction
 This repository contains a PyTorch implementation of a deep learning based graph-transformer for whole slide image (WSI) classification. We propose a Graph-Transformer (GT) network that fuses a graph representation of a WSI and a transformer that can generate WSI-level predictions in a computationally efficient fashion.
