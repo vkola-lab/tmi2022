@@ -39,7 +39,7 @@ Go to './feature_extractor' and config 'config.yaml' before training. The traine
 ```
 python run.py
 ```
-You could use pretrained feature extractor on [NLST](https://drive.google.com/drive/folders/10bEc1MAM3u8fbrqb9uw8IXG7TY4JsIyq?usp=share_link).
+You could use pretrained feature extractor on feature_extractor/model.pth.
 
 ### (c) Constructing Graph
 Go to './feature_extractor' and build graphs from patches:
