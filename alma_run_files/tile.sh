@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=24
 #SBATCH --time=50:00:00
 #SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/tile.out
-#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/ndpi_imgs.err
+#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/error.err
 #SBATCH --partition=smp
 
 module load anaconda/3
