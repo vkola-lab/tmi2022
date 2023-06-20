@@ -14,4 +14,4 @@ conda activate card
 cd /home/ofourkioti/Projects/tmi2022/feature_extractor
 
 
-python build_graphs.py --weights "feature_extractor/model.pth" --dataset "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/" --output "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/graphs/"
+python build_graphs.py --weights "model.pth" --dataset "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/" --output "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/graphs/"
