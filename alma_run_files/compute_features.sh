@@ -11,7 +11,7 @@
 module load anaconda/3
 source /opt/software/applications/anaconda/3/etc/profile.d/conda.sh
 conda activate card
-cd /home/ofourkioti/Projects/tmi2022/
+cd /home/ofourkioti/Projects/tmi2022/feature_extractor
 
 
 python build_graphs.py --weights "feature_extractor/model.pth" --dataset "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/" --output "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam_16/graphs/"
