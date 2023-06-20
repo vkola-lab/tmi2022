@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=24
 #SBATCH --time=50:00:00
-#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/tile.out
+#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/compute_features.out
 #SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/error.err
 #SBATCH --partition=smp
 
