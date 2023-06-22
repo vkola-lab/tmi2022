@@ -97,11 +97,10 @@ def compute_feats( bags_list, i_classifier, save_path):
     num_bags = len(bags_list)
 
     for i in range(0, num_bags):
-        feats_list = []
 
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
         output_path = os.path.join(save_path, 'h5_files/'+ slide_id + '.h5')
-
+        os.makedirs(output_path, exist_ok=True)
 
 
         dataset = Whole_Slide_Bag(file_path=bags_list[i], target_patch_size=224, custom_transforms=Compose([ ToTensor()]))
@@ -127,7 +126,7 @@ def compute_feats( bags_list, i_classifier, save_path):
         print('features size: ', features.shape)
         print('coordinates size: ', file['coords'].shape)
         features = torch.from_numpy(features)
-
+        os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
         torch.save(features, os.path.join(save_path, 'pt_files', slide_id + '.pt'))
 
 
