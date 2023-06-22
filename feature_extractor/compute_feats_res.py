@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image
 from collections import OrderedDict
 import h5py
+from torchvision import transforms, utils, models
 import openslide
 
 class ToPIL(object):
@@ -71,7 +72,6 @@ def collate_features(batch):
 	coords = np.vstack([item[1] for item in batch])
 	return [img, coords]
 
-
 def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file = h5py.File(output_path, mode)
     for key, val in asset_dict.items():
@@ -107,7 +107,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         os.makedirs(output_path, exist_ok=True)
 
 
-        dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ ToTensor()]))
+        dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
 
 
