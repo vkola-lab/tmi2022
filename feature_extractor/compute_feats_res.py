@@ -2,13 +2,9 @@ import cl as cl
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-import torchvision.models as models
 import torchvision.transforms.functional as VF
-from torchvision import transforms
-from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag, Whole_Slide_Bag_FP
-import sys, argparse, os, glob
-import pandas as pd
-import numpy as np
+from datasets.dataset_h5 import  Whole_Slide_Bag_FP
+import argparse, os, glob
 from PIL import Image
 from collections import OrderedDict
 import h5py
@@ -148,7 +144,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
             with torch.no_grad():
 
                 batch = batch.to(device, non_blocking=True)
-                wsi_coords.append(coords.cpu().numpy())
+                wsi_coords.append(coords)
                 features, classes = i_classifier(batch)
                 features = features.cpu().numpy()
                 wsi_feats.append(features)
