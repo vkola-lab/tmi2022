@@ -153,10 +153,10 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
                 mode = 'a'
 
         wsi_coords = np.vstack(wsi_coords)
-        wsi_features = np.vstack(wsi_features)
+        wsi_feats = np.vstack(wsi_feats)
         patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
         neighbor_indices = np.argsort(patch_distances, axis=1)[:, :12 + 1]
-        similarities = generate_values_resnet(wsi_features, neighbor_indices)
+        similarities = generate_values_resnet(wsi_feats, neighbor_indices)
 
         asset_dict = {'indices': neighbor_indices, 'similarities': similarities}
 
