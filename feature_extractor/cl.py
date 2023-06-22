@@ -15,10 +15,10 @@ class IClassifier(nn.Module):
     def __init__(self, feature_extractor, feature_size, output_class):
         super(IClassifier, self).__init__()
 
-        self.fc = nn.Linear(feature_size, output_class)
-        self.feature_extractor = feature_extractor      
 
-        
+        self.feature_extractor = feature_extractor      
+        self.fc = nn.Linear(feature_size, output_class)
+
         
     def forward(self, x):
         device = x.device
