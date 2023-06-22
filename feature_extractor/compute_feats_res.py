@@ -5,13 +5,14 @@ from torch.utils.data import DataLoader
 import torchvision.models as models
 import torchvision.transforms.functional as VF
 from torchvision import transforms
-from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag
+from datasets.dataset_h5 import Dataset_All_Bags, Whole_Slide_Bag, Whole_Slide_Bag_FP
 import sys, argparse, os, glob
 import pandas as pd
 import numpy as np
 from PIL import Image
 from collections import OrderedDict
 import h5py
+import openslide
 
 class ToPIL(object):
     def __call__(self, sample):
@@ -92,17 +93,21 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
-def compute_feats( bags_list, i_classifier, save_path):
+def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
     num_bags = len(bags_list)
 
     for i in range(0, num_bags):
 
+
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
         output_path = os.path.join(save_path, 'h5_files/'+ slide_id + '.h5')
+
+        slide_file_path = os.path.join(data_slide_dir, slide_id +'.tiff')
+        wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
 
 
-        dataset = Whole_Slide_Bag(file_path=bags_list[i], target_patch_size=224, custom_transforms=Compose([ ToTensor()]))
+        dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
 
 
@@ -140,6 +145,7 @@ def main():
     parser.add_argument('--backbone', default='resnet18', type=str, help='Embedder backbone')
     parser.add_argument('--weights', default=None, type=str, help='path to the pretrained weights')
     parser.add_argument('--output', default=None, type=str, help='path to the output graph folder')
+    parser.add_argument('--slide_dir', default=None, type=str, help='path to the output graph folder')
     args = parser.parse_args()
 
     if args.backbone == 'resnet18':
@@ -173,7 +179,7 @@ def main():
 
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
-    compute_feats(bags_list, i_classifier, args.output)
+    compute_feats(bags_list, i_classifier, args.slide_dir ,args.output)
 
 
 if __name__ == '__main__':
