@@ -15,4 +15,4 @@ conda activate card
 cd /home/ofourkioti/Projects/tmi2022/feature_extractor
 
 
-python compute_feats_res.py --weights "DSMIL_extractors/20x/model-v0.pth" --dataset "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/*" --output "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/dsmil-feats/" --slide_dir /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/camelyon_data/camelyon_slides/slides
+python compute_feats_res.py --weights "DSMIL_extractors/20x/model-v1.pth" --dataset "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/*" --output "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/dsmil-feats/" --slide_dir /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/camelyon_data/camelyon_slides/slides
