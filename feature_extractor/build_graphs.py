@@ -92,7 +92,7 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
     for i in range(0, num_bags):
         feats_list = []
         if  args.magnification == '20x':
-            csv_file_path = glob.glob(os.path.join(bags_list[i], '*.jpeg'))
+            csv_file_path = glob.glob(bags_list[i])
             print (csv_file_path)
             print(bags_list[i])
             file_name = bags_list[i].split('/')[-3].split('_')[0]
@@ -105,6 +105,7 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
         if os.path.isdir(os.path.join(save_path, 'simclr_files', file_name)) or len(csv_file_path) < 1:
             print('alreday exists')
             continue
+
         with torch.no_grad():
             for iteration, batch in enumerate(dataloader):
                 patches = batch['input'].float().cuda() 
@@ -160,6 +161,7 @@ def main():
     if args.weights is None:
         print('No feature extractor')
         return
+
     state_dict_weights = torch.load(args.weights)
     state_dict_init = i_classifier.state_dict()
     new_state_dict = OrderedDict()
