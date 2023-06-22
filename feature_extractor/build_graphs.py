@@ -92,8 +92,7 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
     for i in range(0, num_bags):
         feats_list = []
         if  args.magnification == '20x':
-            csv_file_path = glob.glob(os.path.join(bags_list[i], '*.jpeg'))
-            print (bags_list[i])
+            csv_file_path= glob.glob(os.path.join(os.path.join(bags_list[i], '20.0/*.jpeg')))
             file_name = bags_list[i].split('/')[-3].split('_')[0]
         if args.magnification == '5x' or args.magnification == '10x':
             csv_file_path = glob.glob(os.path.join(bags_list[i], '*.jpg'))
