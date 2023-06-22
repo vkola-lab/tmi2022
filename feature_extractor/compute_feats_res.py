@@ -110,7 +110,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
 
-        mode = 'a'
+        mode = 'w'
         for count, (batch, coords) in enumerate(dataloader):
             with torch.no_grad():
 
@@ -121,6 +121,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
                 asset_dict = {'features': features, 'coords': coords}
                 save_hdf5(output_path, asset_dict, attr_dict=None, mode=mode)
+                mode = 'a'
 
 
 
