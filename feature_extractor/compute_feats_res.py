@@ -13,6 +13,9 @@ from PIL import Image
 from collections import OrderedDict
 import h5py
 from torchvision import transforms, utils, models
+import numpy as np
+from scipy.spatial import distance
+from sklearn.metrics import pairwise_distances
 import openslide
 
 class ToPIL(object):
@@ -93,6 +96,32 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
+def generate_values_resnet(images, Idx, dist="euclidean"):
+    """
+
+    Parameters
+    ----------
+    images :  np.ndarray of size (numnber of patches,h,w,d) contatining the pathes of an image
+    Idx    : indices of the closest neighbors of every image
+
+    Returns
+    -------
+    a list of np.ndarrays, pairing every patch of an image with its closest neighbors
+
+    """
+
+    rows = np.asarray([[enum] * len(item) for enum, item in enumerate(Idx)]).ravel()
+    columns = Idx.ravel()
+    values = []
+    for row, column in zip(rows, columns):
+        m1 = np.expand_dims(images[int(row)], axis=0)
+        m2 = np.expand_dims(images[int(column)], axis=0)
+        value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
+        values.append(value)
+    values = np.reshape(values, (Idx.shape[0], Idx.shape[1]))
+    return values
+
+
 def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
     num_bags = len(bags_list)
 
@@ -113,22 +142,32 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
 
         mode = 'w'
+        wsi_coords=[]
+        wsi_feats=[]
         for count, (batch, coords) in enumerate(dataloader):
             with torch.no_grad():
 
                 batch = batch.to(device, non_blocking=True)
-
+                wsi_coords.append(coords.cpu().numpy())
                 features, classes = i_classifier(batch)
                 features = features.cpu().numpy()
-
+                wsi_feats.append(features)
                 asset_dict = {'features': features, 'coords': coords}
                 save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
                 mode = 'a'
 
+        wsi_coords = np.vstack(wsi_coords)
+        wsi_features = np.vstack(wsi_features)
+        patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
+        neighbor_indices = np.argsort(patch_distances, axis=1)[:, :12 + 1]
+        similarities = generate_values_resnet(wsi_features, neighbor_indices)
+
+        asset_dict = {'indices': neighbor_indices, 'similarities': similarities}
+
+        save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
 
 
         file = h5py.File(output_path_file, "r")
-
         features = file['features'][:]
         print('features size: ', features.shape)
         print('coordinates size: ', file['coords'].shape)
