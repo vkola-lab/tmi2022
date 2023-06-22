@@ -8,6 +8,6 @@
 
 #srun rsync -avP   /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/ovarian_cancer/patches/* /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/ovarian_cancer/patches/
 
-srun rsync -avP /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/TCGA_LUNG/*  /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/
+srun rsync -avP /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/TCGA-LUNG/*  /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/
 #srun rsync -avP    /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/camelyon_data/Nature-2019-patches/* /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/camelyon_data/Nature-2019-patches/
 #srun rsync -avP   /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/lipos_flat/* /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/lipos/f lat/
