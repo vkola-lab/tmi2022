@@ -4,8 +4,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --time=50:00:00
-#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/compute_features.out
-#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/error.err
+#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/compute_features_camelyon.out
+#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/compute_features_camelyon.err
 #SBATCH --gres=gpu:1
 #SBATCH --partition=gpu
 
