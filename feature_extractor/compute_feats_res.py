@@ -100,11 +100,13 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
 
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
-        output_path = os.path.join(save_path, 'h5_files/'+ slide_id + '.h5')
+        output_path = os.path.join(save_path, 'h5_files/')
 
         slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
+
+        output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
 
 
         dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
@@ -120,12 +122,12 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
                 features = features.cpu().numpy()
 
                 asset_dict = {'features': features, 'coords': coords}
-                save_hdf5(output_path, asset_dict, attr_dict=None, mode=mode)
+                save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
                 mode = 'a'
 
 
 
-        file = h5py.File(output_path, "r")
+        file = h5py.File(output_path_file, "r")
 
         features = file['features'][:]
         print('features size: ', features.shape)
