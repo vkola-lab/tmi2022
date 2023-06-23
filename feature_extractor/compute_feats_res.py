@@ -174,7 +174,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 def main():
     parser = argparse.ArgumentParser(description='Compute TCGA features from SimCLR embedder')
-    parser.add_argument('--num_classes', default=512, type=int, help='Number of output classes')
+    parser.add_argument('--num_classes', default=2, type=int, help='Number of output classes')
     parser.add_argument('--num_feats', default=512, type=int, help='Feature size')
     parser.add_argument('--batch_size', default=128, type=int, help='Batch size of dataloader')
     parser.add_argument('--num_workers', default=0, type=int, help='Number of threads for datalodaer')
