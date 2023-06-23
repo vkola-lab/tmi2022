@@ -128,7 +128,7 @@ def main():
     parser = argparse.ArgumentParser(description='Compute TCGA features from SimCLR embedder')
     parser.add_argument('--num_classes', default=2, type=int, help='Number of output classes')
     parser.add_argument('--num_feats', default=512, type=int, help='Feature size')
-    parser.add_argument('--batch_size', default=128, type=int, help='Batch size of dataloader')
+    parser.add_argument('--batch_size', default=512, type=int, help='Batch size of dataloader')
     parser.add_argument('--num_workers', default=0, type=int, help='Number of threads for datalodaer')
     parser.add_argument('--dataset', default=None, type=str, help='path to patches')
     parser.add_argument('--backbone', default='resnet18', type=str, help='Embedder backbone')
