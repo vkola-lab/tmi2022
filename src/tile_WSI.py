@@ -225,7 +225,7 @@ class DeepZoomImageTiler(object):
         except:
             print(self._basename + " - No Obj information found")
             print(self._ImgExtension)
-            if ("jpg" in self._ImgExtension) | ("dcm" in self._ImgExtension) :
+            if ("jpg" in self._ImgExtension) | ("dcm" in self._ImgExtension) | ("tif" in self._ImgExtension):
                 #Objective = self._ROIpc
                 Objective = 1.
                 Magnification = Objective
