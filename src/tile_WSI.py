@@ -159,7 +159,7 @@ class TileWorker(Process):
                                 TileMaskO[...,0] = (TileMask[:,:].astype(float)  / maxVal * 255.0).astype(int)
                                 TileMaskO[...,1] = (TileMask[:,:].astype(float)  / maxVal * 255.0).astype(int)
                                 TileMaskO[...,2] = (TileMask[:,:].astype(float)  / maxVal * 255.0).astype(int)
-                                TileMaskO = numpy.array(Image.fromarray(TileMaskO).resize(arr.shape[0], arr.shape[1],3))
+                                TileMaskO = np.array(Image.fromarray(TileMaskO).resize(arr.shape[0], arr.shape[1],3))
                                 # TileMaskO = imresize(TileMaskO, (arr.shape[0], arr.shape[1],3))
                                 TileMaskO[TileMaskO<10] = 0
                                 TileMaskO[TileMaskO>=10] = 255
@@ -225,7 +225,7 @@ class DeepZoomImageTiler(object):
         except:
             print(self._basename + " - No Obj information found")
             print(self._ImgExtension)
-            if ("jpg" in self._ImgExtension) | ("dcm" in self._ImgExtension) | ("tif" in self._ImgExtension):
+            if ("jpg" in self._ImgExtension) | ("dcm" in self._ImgExtension) :
                 #Objective = self._ROIpc
                 Objective = 1.
                 Magnification = Objective
@@ -679,8 +679,6 @@ class DeepZoomStaticTiler(object):
             self._queue.put(None)
         self._queue.join()
 
-
-
 def ImgWorker(queue):
 	# print("ImgWorker started")
 	while True:
@@ -765,11 +763,7 @@ if __name__ == '__main__':
 	parser.add_option('-N', '--normalize', metavar='NAME', dest='normalize',
 		help='if normalization is needed, N list the mean and std for each channel. For example \'57,22,-8,20,10,5\' with the first 3 numbers being the targeted means, and then the targeted stds')
 
-
-
-
 	(opts, args) = parser.parse_args()
-
 
 	try:
 		slidepath = args[0]
