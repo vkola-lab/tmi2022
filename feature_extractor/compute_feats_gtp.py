@@ -143,7 +143,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
                 batch = batch.to(device, non_blocking=True)
                 wsi_coords.append(coords)
                 features, classes = i_classifier(batch)
-                wsi_feats.append(features)
+                wsi_feats.extend(features)
 
         os.makedirs(os.path.join(save_path, 'simclr_files', slide_id), exist_ok=True)
         wsi_coords = np.vstack(wsi_coords)
