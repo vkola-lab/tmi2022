@@ -143,7 +143,6 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
                 batch = batch.to(device, non_blocking=True)
                 wsi_coords.append(coords)
                 features, classes = i_classifier(batch)
-                features = features.cpu().numpy()
                 wsi_feats.append(features)
 
         os.makedirs(os.path.join(save_path, 'simclr_files', slide_id), exist_ok=True)
