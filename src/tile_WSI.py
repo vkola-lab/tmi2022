@@ -310,7 +310,7 @@ class DeepZoomImageTiler(object):
                 if not os.path.exists(tiledir):
                     os.makedirs(tiledir)
                 cols, rows = self._dz.level_tiles[level]
-                print (cols,rows)
+
                 if xml_valid:
                     # print("xml valid")
                     '''# If xml file is used, check for each tile what are their corresponding coordinate in the base image
