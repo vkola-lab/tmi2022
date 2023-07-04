@@ -225,6 +225,8 @@ class DeepZoomImageTiler(object):
         except:
             print(self._basename + " - No Obj information found")
             print(self._ImgExtension)
+
+
             if ("jpg" in self._ImgExtension) | ("dcm" in self._ImgExtension) | ("tif" in self._ImgExtension):
                 #Objective = self._ROIpc
                 Objective = 1.
@@ -299,6 +301,7 @@ class DeepZoomImageTiler(object):
 
             for level in range(self._dz.level_count-1,-1,-1):
                 ThisMag = Available[0]/pow(2,self._dz.level_count-(level+1))
+                print (ThisMag)
                 if self._Mag > 0:
                     if ThisMag != self._Mag:
                         continue
@@ -308,6 +311,7 @@ class DeepZoomImageTiler(object):
                 if not os.path.exists(tiledir):
                     os.makedirs(tiledir)
                 cols, rows = self._dz.level_tiles[level]
+                print (cols,rows)
                 if xml_valid:
                     # print("xml valid")
                     '''# If xml file is used, check for each tile what are their corresponding coordinate in the base image
