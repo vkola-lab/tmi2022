@@ -102,7 +102,7 @@ def adj_matrix(wsi_coords):
     for i in range(total-1):
         x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
         indices = neighbor_indices[i]
-        for j in range(i+1, indices):
+        for j in range(i+1, indices.shape[0]):
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
             if abs(int(x_i)-int(x_j)) <=512 and abs(int(y_i)-int(y_j)) <= 512:
                 adj_s[i][j] = 1
