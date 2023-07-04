@@ -150,14 +150,12 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         txt_file = open(os.path.join(save_path, 'simclr_files', slide_id, 'c_idx.txt'), "w+")
         save_coords(txt_file, wsi_coords)
-
         # save node features
         output = torch.stack(wsi_feats, dim=0).cuda()
         torch.save(output, os.path.join(save_path, 'simclr_files', slide_id, 'features.pt'))
         # save adjacent matrix
         adj_s = adj_matrix(wsi_coords)
         torch.save(adj_s, os.path.join(save_path, 'simclr_files', slide_id, 'adj_s.pt'))
-
         print('\r Computed: {}/{}'.format(i + 1, num_bags))
 
 
