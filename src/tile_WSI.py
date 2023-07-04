@@ -301,7 +301,6 @@ class DeepZoomImageTiler(object):
 
             for level in range(self._dz.level_count-1,-1,-1):
                 ThisMag = Available[0]/pow(2,self._dz.level_count-(level+1))
-                print (ThisMag)
                 if self._Mag > 0:
                     if ThisMag != self._Mag:
                         continue
