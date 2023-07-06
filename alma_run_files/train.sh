@@ -21,5 +21,5 @@ do CUDA_VISIBLE_DEVICES=0 python main.py --n_class 2 --data_path "/data/scratch/
 --task_name "camelyon16_fold_${i}" \
 --batch_size 8 \
 --train \
---log_interval_local 6 \
+--log_interval_local 6
 done
