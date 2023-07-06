@@ -4,8 +4,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --time=100:00:00
-#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/compute_feats_cam_17_gtp.out
-#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/compute_feats_cam_17_gtp.err
+#SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/compute_feats_cam_16_gtp.out
+#SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/compute_feats_cam_16_gtp.err
 #SBATCH --gres=gpu:1
 #SBATCH --partition=gpu
 
