@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 from __future__ import absolute_import, division, print_function
 
 import os
@@ -54,7 +53,7 @@ ids_val = open(args.val_set).readlines()
 dataset_val = GraphDataset(os.path.join(data_path, ""), ids_val)
 dataloader_val = torch.utils.data.DataLoader(dataset=dataset_val, batch_size=batch_size, num_workers=10, collate_fn=collate, shuffle=False, pin_memory=True)
 total_val_num = len(dataloader_val) * batch_size
-    
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ##### creating models #############
 print("creating models......")
@@ -70,12 +69,9 @@ if args.resume:
 
 if torch.cuda.is_available():
     model = model.cuda()
-#model.apply(weight_init)
 
 optimizer = torch.optim.Adam(model.parameters(), lr = learning_rate, weight_decay = 5e-4)       # best:5e-4, 4e-3
 scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[20,100], gamma=0.1) # gamma=0.3  # 30,90,130 # 20,90,130 -> 150
-
-##################################
 
 criterion = nn.CrossEntropyLoss()
 
