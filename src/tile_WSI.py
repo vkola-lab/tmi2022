@@ -827,7 +827,7 @@ if __name__ == '__main__':
 	'''
 	#files = sorted(files)
 	files = pd.read_csv('camelyon_17.csv')
-	files = files['slide_id'].apply(lambda x: os.path.join(slidepath, x + '.tif'))
+	files = files['slide_id'].apply(lambda x: os.path.join('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/slides/camelyon17/images/', x + '.tif'))
 
 	for imgNb in range(len(files)):
 		filename = files[imgNb]
