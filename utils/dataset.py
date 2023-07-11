@@ -50,32 +50,17 @@ class GraphDataset(data.Dataset):
         self.root = root
         self.ids = ids
         #self.target_patch_size = target_patch_size
-        self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
-        #self.classdict = {'normal': 0, 'tumor': 1}        #
-        #self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
-        self._up_kwargs = {'mode': 'bilinear'}
+        #self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
+        self.classdict = {'normal': 0, 'tumor': 1}        #
+        #self.classdict = { 'LUAD': 0, 'LUSC': 1}
+        #self._up_kwargs = {'mode': 'bilinear'}
 
     def __getitem__(self, index):
         sample = {}
         info = self.ids[index].replace('\n', '')
-        file_name, label = info.split('\t')[0].rsplit('.', 1)[0], info.split('\t')[1]
-        site, file_name = file_name.split('/')
+        file_name, label =  info.split('\t')[0], info.split('\t')[1]
 
-        # if site =='CCRCC':
-        #     file_path = self.root + 'CPTAC_CCRCC_features/simclr_files'
-        if site =='LUAD' or site =='LSCC':
-            site = 'LUNG'
-        file_path = self.root + 'CPTAC_{}_features/simclr_files'.format(site)       #_pre# with # rushin
-
-        # For NLST only
-        if site =='NLST':
-            file_path = self.root + 'NLST_Lung_features/simclr_files'
-
-        # For TCGA only
-        if site =='TCGA':
-            file_name = info.split('\t')[0]
-            _, file_name = file_name.split('/')
-            file_path = self.root + 'TCGA_LUNG_features/simclr_files'       #_resnet_with
+        file_path = self.root + 'graphs/simclr_files/'       #_resnet_with
 
         sample['label'] = self.classdict[label]
         sample['id'] = file_name
