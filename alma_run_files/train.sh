@@ -7,7 +7,7 @@
 #SBATCH --output=/home/ofourkioti/Projects/tmi2022/results/train_cam16.out
 #SBATCH --error=/home/ofourkioti/Projects/tmi2022/results/train.err
 #SBATCH --gres=gpu:1
-#SBATCH --partition=gpu
+#SBATCH --partition=gpuhm
 
 module use /opt/software/easybuild/modules/all/
 module load Mamba
