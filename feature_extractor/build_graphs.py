@@ -94,7 +94,6 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
         if  args.magnification == '20x':
             csv_file_path= glob.glob(os.path.join(os.path.join(bags_list[i], '20.0/*.jpeg')))
             if not csv_file_path:
-                print (csv_file_path)
                 continue
             file_name = csv_file_path[0].split('/')[-3].split('_')[0]
         if args.magnification == '5x' or args.magnification == '10x':
@@ -125,11 +124,11 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
         torch.save(adj_s, os.path.join(save_path, 'simclr_files', file_name, 'adj_s.pt'))
 
         print('\r Computed: {}/{}'.format(i+1, num_bags))
-        
+
 
 def main():
     parser = argparse.ArgumentParser(description='Compute TCGA features from SimCLR embedder')
-    parser.add_argument('--num_classes', default=2, type=int, help='Number of output classes')
+    parser.add_argument('--num_classes', default=512, type=int, help='Number of output classes')
     parser.add_argument('--num_feats', default=512, type=int, help='Feature size')
     parser.add_argument('--batch_size', default=512, type=int, help='Batch size of dataloader')
     parser.add_argument('--num_workers', default=0, type=int, help='Number of threads for datalodaer')
