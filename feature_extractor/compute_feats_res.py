@@ -134,7 +134,7 @@ def adj_matrix(wsi_coords,wsi_feats):
         sum = 0
         for j in range(i, indices.shape[0]):
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
-            if abs(int(x_i)-int(x_j)) <=1536 and abs(int(y_i)-int(y_j)) <= 1536:
+            if abs(int(x_i)-int(x_j)) <=1024 and abs(int(y_i)-int(y_j)) <= 1024:
                 m1 = np.expand_dims(wsi_feats[int(i)], axis=0)
                 m2 = np.expand_dims(wsi_feats[int(j)], axis=0)
                 value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'cosine')[0][0]
