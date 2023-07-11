@@ -9,9 +9,10 @@
 #SBATCH --gres=gpu:1
 #SBATCH --partition=gpu
 
-module load anaconda/3
-source /opt/software/applications/anaconda/3/etc/profile.d/conda.sh
-conda activate dl_torch
+module use /opt/software/easybuild/modules/all/
+module load Mamba
+source ~/.bashrc
+mamba activate my_mamba_environment dl_torch
 cd /home/ofourkioti/Projects/tmi2022/
 
 for i in {0..4};
