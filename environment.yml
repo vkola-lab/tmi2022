@@ -1,0 +1,19 @@
+name: dl_torch
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pandas
+  - torchaudio
+  - torchvision
+  - pytorch
+  - pytorch-cuda=12.1
+  - openslide-python
+  - pytorch-lightning
+  - pillow
+  - torchmetrics
+  - scipy
+  - tensorboardx
+  - ipykernel
+  - tensorboard
+prefix: /home/admin_ofourkioti/anaconda3/envs/dl_torch
