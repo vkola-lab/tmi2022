@@ -128,7 +128,7 @@ for epoch in range(num_epochs):
 
             for i_batch, sample_batched in enumerate(dataloader_val):
                 #pred, label, _ = evaluator.eval_test(sample_batched, model)
-                print (sample_batched.shape)
+
                 preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam)
                 
                 total += len(labels)
