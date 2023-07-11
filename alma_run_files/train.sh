@@ -12,7 +12,7 @@
 module use /opt/software/easybuild/modules/all/
 module load Mamba
 source ~/.bashrc
-mamba activate my_mamba_environment dl_torch
+mamba activate  dl_torch
 cd /home/ofourkioti/Projects/tmi2022/
 
 for i in {0..4};
