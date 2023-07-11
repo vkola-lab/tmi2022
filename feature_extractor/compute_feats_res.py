@@ -92,7 +92,7 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
-def generate_values_resnet(images, Idx, dist="euclidean"):
+def generate_values_resnet(images, Idx, dist="wsi_feats"):
     """
 
     Parameters
@@ -109,13 +109,41 @@ def generate_values_resnet(images, Idx, dist="euclidean"):
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(Idx)]).ravel()
     columns = Idx.ravel()
     values = []
+    coords=[]
     for row, column in zip(rows, columns):
-        m1 = np.expand_dims(images[int(row)], axis=0)
-        m2 = np.expand_dims(images[int(column)], axis=0)
-        value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
-        values.append(value)
+            m1 = np.expand_dims(images[int(row)], axis=0)
+            m2 = np.expand_dims(images[int(column)], axis=0)
+            value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
+            values.append(value)
+
     values = np.reshape(values, (Idx.shape[0], Idx.shape[1]))
     return values
+
+def adj_matrix(wsi_coords,wsi_feats):
+    total = wsi_coords.shape[0]
+
+
+    patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
+    values=[]
+    adj_coords=[]
+
+    for i in range(total-1):
+        x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
+        indices = neighbor_indices[i]
+        sum = 0
+        for j in range(i, indices.shape[0]):
+            x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
+            if abs(int(x_i)-int(x_j)) <=1536 and abs(int(y_i)-int(y_j)) <= 1536:
+                m1 = np.expand_dims(wsi_feats[int(i)], axis=0)
+                m2 = np.expand_dims(wsi_feats[int(j)], axis=0)
+                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'cosine')[0][0]
+                values.append(value)
+                adj_coords.append((i,j))
+                sum+=1
+            if sum==5:
+                break
+    return np.array(adj_coords), np.array(values)
 
 
 def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
@@ -154,11 +182,11 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
-        patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
-        neighbor_indices = np.argsort(patch_distances, axis=1)[:, :12 + 1]
-        similarities = generate_values_resnet(wsi_feats, neighbor_indices)
 
-        asset_dict = {'indices': neighbor_indices, 'similarities': similarities}
+        #similarities = generate_values_resnet(wsi_feats, wsi_coords)
+        similarities,adj_coords = adj_matrix(wsi_coords, wsi_feats)
+
+        asset_dict = {'adj_coords': adj_coords, 'similarities': similarities}
 
         save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
 
