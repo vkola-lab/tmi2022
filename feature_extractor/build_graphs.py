@@ -99,7 +99,8 @@ def compute_feats(args, bags_list, i_classifier, save_path=None, whole_slide_pat
             #tcga_data
             #file_name = csv_file_path[0].split('/')[-3].split('_')[0]
             #camelyon_data
-            file_name = os.path.splitext(os.path.basename(csv_file_path[0]))[0]
+            file_name = csv_file_path[0].split('/')[-3].split('_')[:2]
+            file_name = '_'.join(file_name)
         if args.magnification == '5x' or args.magnification == '10x':
             csv_file_path = glob.glob(os.path.join(bags_list[i], '*.jpg'))
 
