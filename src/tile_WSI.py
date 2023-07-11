@@ -15,6 +15,7 @@
 from __future__ import print_function
 import json
 import openslide
+import pandas as pd
 from openslide import open_slide, ImageSlide
 from openslide.deepzoom import DeepZoomGenerator
 from optparse import OptionParser
@@ -801,6 +802,7 @@ if __name__ == '__main__':
 
 	# get  images from the data/ file.
 	files = glob(slidepath)
+
 	#ImgExtension = os.path.splitext(slidepath)[1]
 	ImgExtension = slidepath.split('*')[-1]
 	#files
@@ -823,7 +825,10 @@ if __name__ == '__main__':
 		p.start()
 		procs.append(p)
 	'''
-	files = sorted(files)
+	#files = sorted(files)
+	files = pd.read_csv('camelyon_17.csv')
+	files = files['slide_id'].apply(lambda x: os.path.join(slidepath, x + '.tif'))
+
 	for imgNb in range(len(files)):
 		filename = files[imgNb]
 		#print(filename)
