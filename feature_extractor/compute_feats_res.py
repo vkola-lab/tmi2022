@@ -143,6 +143,7 @@ def adj_matrix(wsi_coords,wsi_feats):
                 sum+=1
             if sum==5:
                 break
+    print (np.array(adj_coords).shape, np.array(values).shape)
     return np.array(adj_coords), np.array(values)
 
 
