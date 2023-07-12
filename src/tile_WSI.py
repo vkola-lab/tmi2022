@@ -835,10 +835,8 @@ if __name__ == '__main__':
 		opts.basenameJPG = os.path.splitext(os.path.basename(filename))[0]
 		print("processing: " + opts.basenameJPG + " with extension: " + ImgExtension)
 		#opts.basenameJPG = os.path.splitext(os.path.basename(slidepath))[0]
-		#if os.path.isdir("%s_files" % (basename)):
-		#	print("EXISTS")
-		#else:
-		#	print("Not Found")
+		if os.path.isdir(os.path.join('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-17/tiles',"%s_files" % (opts.basenameJPG ))):
+		    continue
 
 		if ("dcm" in ImgExtension) :
 			print("convert %s dcm to jpg" % filename)
