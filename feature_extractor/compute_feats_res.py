@@ -152,7 +152,6 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
     for i in range(0, num_bags):
 
-
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
         output_path = os.path.join(save_path, 'h5_files/')
 
@@ -161,7 +160,8 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         os.makedirs(output_path, exist_ok=True)
 
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
-
+        if os.path.exists(output_path_file):
+            continue
 
         dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
