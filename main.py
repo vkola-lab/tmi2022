@@ -46,12 +46,12 @@ batch_size = args.batch_size
 if train:
     ids_train = open(args.train_set).readlines()
     dataset_train = GraphDataset(os.path.join(data_path, ""), ids_train)
-    dataloader_train = torch.utils.data.DataLoader(dataset=dataset_train, batch_size=batch_size, num_workers=4, collate_fn=collate, shuffle=True, pin_memory=True, drop_last=True)
+    dataloader_train = torch.utils.data.DataLoader(dataset=dataset_train, batch_size=batch_size, num_workers=1, collate_fn=collate, shuffle=True, pin_memory=True, drop_last=True)
     total_train_num = len(dataloader_train) * batch_size
 
 ids_val = open(args.val_set).readlines()
 dataset_val = GraphDataset(os.path.join(data_path, ""), ids_val)
-dataloader_val = torch.utils.data.DataLoader(dataset=dataset_val, batch_size=batch_size, num_workers=4, collate_fn=collate, shuffle=False, pin_memory=True)
+dataloader_val = torch.utils.data.DataLoader(dataset=dataset_val, batch_size=batch_size, num_workers=1, collate_fn=collate, shuffle=False, pin_memory=True)
 total_val_num = len(dataloader_val) * batch_size
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -23,5 +23,5 @@ do python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/Olga
 --task_name "train_cam16_tile_features_${i}" \
 --batch_size 4 \
 --train \
---log_interval_local 6
+--log_interval_local 5
 done
