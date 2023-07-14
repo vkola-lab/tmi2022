@@ -74,6 +74,7 @@ class Trainer(object):
 
     def train(self, sample, model):
         node_feat, labels, adjs, masks = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'])
+        print(adjs.shape, node_feat.shape)
         pred,labels,loss = model.forward(node_feat, labels, adjs, masks)
 
         return pred,labels,loss
