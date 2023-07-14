@@ -16,12 +16,11 @@ mamba activate  dl_torch
 cd /home/ofourkioti/Projects/tmi2022/
 
 export CUDA_VISIBLE_DEVICES=0
-for i in {0..3};
+
 do python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/" \
---train_set "cam_16_splits/train_${i}.txt" --val_set "cam_16_splits/val_${i}.txt" --model_path "graph_transformer/saved_models/" \
+--train_set "cam_16_splits/train_0.txt" --val_set "cam_16_splits/val_0.txt" --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
---task_name "train_cam16_tile_features_${i}" \
+--task_name "train_cam16_tile_features_0" \
 --batch_size 2 \
 --train \
 --log_interval_local 5
-done
