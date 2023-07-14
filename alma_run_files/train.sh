@@ -17,7 +17,7 @@ cd /home/ofourkioti/Projects/tmi2022/
 
 export CUDA_VISIBLE_DEVICES=0
 
-do python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/" \
+python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/" \
 --train_set "cam_16_splits/train_0.txt" --val_set "cam_16_splits/val_0.txt" --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
 --task_name "train_cam16_tile_features_0" \
