@@ -20,7 +20,7 @@ do CUDA_VISIBLE_DEVICES=0 python main.py --n_class 2 --data_path "/data/scratch/
 --train_set "cam_16_splits/train_${i}.txt" --val_set "cam_16_splits/val_${i}.txt" --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
 --task_name "train_cam16_tile_features_${i}" \
---batch_size 8\
+--batch_size 8 \
 --train \
 --log_interval_local 6
 done
