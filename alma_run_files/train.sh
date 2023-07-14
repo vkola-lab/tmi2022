@@ -15,13 +15,12 @@ source ~/.bashrc
 mamba activate  dl_torch
 cd /home/ofourkioti/Projects/tmi2022/
 
-
 for i in {0..3};
-do CUDA_VISIBLE_DEVICES=0 python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/gtp_features/" \
+do CUDA_VISIBLE_DEVICES=0 python main.py --n_class 2 --data_path "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphs/" \
 --train_set "cam_16_splits/train_${i}.txt" --val_set "cam_16_splits/val_${i}.txt" --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
---task_name "camelyon16_fold_${i}" \
---batch_size 1 \
+--task_name "train_cam16_tile_features_${i}" \
+--batch_size 8\
 --train \
 --log_interval_local 6
 done
