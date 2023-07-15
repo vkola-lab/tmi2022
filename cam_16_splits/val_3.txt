@@ -45,10 +45,8 @@ normal_098	normal_tissue
 normal_101	normal_tissue
 normal_102	normal_tissue
 normal_104	normal_tissue
-normal_111	normal_tissue
 normal_114	normal_tissue
 normal_129	normal_tissue
 normal_137	normal_tissue
-normal_144	normal_tissue
 normal_147	normal_tissue
 normal_154	normal_tissue

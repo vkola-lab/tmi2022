@@ -172,7 +172,6 @@ normal_105	normal_tissue
 normal_107	normal_tissue
 normal_108	normal_tissue
 normal_110	normal_tissue
-normal_111	normal_tissue
 normal_112	normal_tissue
 normal_113	normal_tissue
 normal_114	normal_tissue
@@ -201,7 +200,6 @@ normal_139	normal_tissue
 normal_140	normal_tissue
 normal_141	normal_tissue
 normal_143	normal_tissue
-normal_144	normal_tissue
 normal_145	normal_tissue
 normal_146	normal_tissue
 normal_147	normal_tissue
