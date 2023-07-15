@@ -61,12 +61,12 @@ class GraphDataset(data.Dataset):
         file_name, label =  info.split('\t')[0], info.split('\t')[1]
 
         file_path = self.root + 'graphs/simclr_files/'       #_resnet_with
-
         sample['label'] = self.classdict[label]
         sample['id'] = file_name
 
         #feature_path = os.path.join(self.root, file_name, 'features.pt')
         feature_path = os.path.join(file_path, file_name, 'features.pt')
+        print (feature_path)
 
         if os.path.exists(feature_path):
             features = torch.load(feature_path, map_location=lambda storage, loc: storage)
