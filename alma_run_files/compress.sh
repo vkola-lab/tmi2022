@@ -14,5 +14,5 @@
 #srun rsync -avP /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles/* /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles/
 #srun rsync -avP /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/slides/*  /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/slides/
 
-tar --use-compress-program="pigz -k -9" -cf tiles.tar.gz /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles
+tar --use-compress-program="pigz -k -9" -cf /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles.tar.gz /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles/
 
