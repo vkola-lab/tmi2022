@@ -76,7 +76,7 @@ class GraphDataset(data.Dataset):
 
         #adj_s_path = os.path.join(self.root, file_name, 'adj_s.pt')
         adj_s_path = os.path.join(file_path, file_name, 'adj_s.pt')
-        print(feature_path,(features.shape[0]))
+        #print(feature_path,(features.shape[0]))
         if os.path.exists(adj_s_path):
             adj_s = torch.load(adj_s_path, map_location=lambda storage, loc: storage)
         else:
