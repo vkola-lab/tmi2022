@@ -8,7 +8,7 @@ tumor_034	tumor_tissue
 tumor_041	tumor_tissue
 tumor_051	tumor_tissue
 tumor_058	tumor_tissue
-tumor_042	tumor_tissue
+tumor_064	tumor_tissue
 tumor_065	tumor_tissue
 tumor_066	tumor_tissue
 tumor_076	tumor_tissue

@@ -31,7 +31,7 @@ tumor_037	tumor_tissue
 tumor_038	tumor_tissue
 tumor_039	tumor_tissue
 tumor_040	tumor_tissue
-tumor_064	tumor_tissue
+tumor_042	tumor_tissue
 tumor_043	tumor_tissue
 tumor_044	tumor_tissue
 tumor_045	tumor_tissue
@@ -172,7 +172,6 @@ normal_106	normal_tissue
 normal_107	normal_tissue
 normal_108	normal_tissue
 normal_109	normal_tissue
-normal_111	normal_tissue
 normal_114	normal_tissue
 normal_115	normal_tissue
 normal_116	normal_tissue
@@ -199,7 +198,6 @@ normal_140	normal_tissue
 normal_141	normal_tissue
 normal_142	normal_tissue
 normal_143	normal_tissue
-normal_144	normal_tissue
 normal_146	normal_tissue
 normal_147	normal_tissue
 normal_148	normal_tissue
