@@ -92,7 +92,7 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
-def generate_values_resnet(images, Idx, dist="wsi_feats"):
+def generate_values_resnet(images, wsi_coords, dist="cosine"):
     """
 
     Parameters
@@ -105,9 +105,10 @@ def generate_values_resnet(images, Idx, dist="wsi_feats"):
     a list of np.ndarrays, pairing every patch of an image with its closest neighbors
 
     """
-
-    rows = np.asarray([[enum] * len(item) for enum, item in enumerate(Idx)]).ravel()
-    columns = Idx.ravel()
+    patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :4]
+    rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
+    columns = neighbor_indices.ravel()
     values = []
     coords=[]
     for row, column in zip(rows, columns):
@@ -115,9 +116,10 @@ def generate_values_resnet(images, Idx, dist="wsi_feats"):
             m2 = np.expand_dims(images[int(column)], axis=0)
             value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
+            coords.append((row, column))
 
-    values = np.reshape(values, (Idx.shape[0], Idx.shape[1]))
-    return values
+    #values = np.reshape(values, (Idx.shape[0], Idx.shape[1]))
+    return np.array(coords), np.array(values)
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
@@ -138,7 +140,7 @@ def adj_matrix(wsi_coords,wsi_feats):
                 m1 = np.expand_dims(wsi_feats[int(i)], axis=0)
                 m2 = np.expand_dims(wsi_feats[int(j)], axis=0)
                 value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'cosine')[0][0]
-                values.append(1-value)
+                values.append(value)
                 adj_coords.append((i, j))
                 sum += 1
             if sum == 9:
@@ -156,12 +158,12 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         output_path = os.path.join(save_path, 'h5_files/')
 
         slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
-        wsi = openslide.open_slide(slide_file_path)
-        os.makedirs(output_path, exist_ok=True)
-
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
         if os.path.exists(output_path_file):
             continue
+
+        wsi = openslide.open_slide(slide_file_path)
+        os.makedirs(output_path, exist_ok=True)
 
         dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
@@ -184,17 +186,18 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
 
-        #similarities = generate_values_resnet(wsi_feats, wsi_coords)
-        adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
+
+        adj_coords,similarities = generate_values_resnet(wsi_feats, wsi_coords)
+        #adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
 
         asset_dict = {'adj_coords': adj_coords, 'similarities': similarities}
 
         save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
 
         file = h5py.File(output_path_file, "r")
-        features = file['features'][:]
+
         print('features size: ', features.shape)
-        print('coordinates size: ', file['coords'].shape)
+        print('adj_coords: ', file['adj_coords'][:].shape)
         features = torch.from_numpy(features)
         os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
         torch.save(features, os.path.join(save_path, 'pt_files', slide_id + '.pt'))
