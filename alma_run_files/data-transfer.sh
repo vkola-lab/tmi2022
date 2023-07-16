@@ -9,4 +9,4 @@
 #srun rsync -avP   /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/ovarian_cancer/patches/* /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/ovarian_cancer/patches/
 
 #srun rsync -avP /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles/* /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/tiles/
-srun rsync -avP /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/slides/camelyon_slides/*  /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/slides/
+srun rsync -avP /data/rds/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/gtp-feats/*  /data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/
