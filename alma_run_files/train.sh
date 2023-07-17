@@ -23,3 +23,4 @@ do CUDA_VISIBLE_DEVICES=0 python main.py --n_class 2 --data_path "/data/scratch/
 --batch_size 2 \
 --train \
 --log_interval_local 5
+done
