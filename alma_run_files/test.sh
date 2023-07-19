@@ -24,10 +24,10 @@ python main.py \
 --val_set "cam_16_splits/test_${i}.txt" \
 --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
---task_name "train_cam16_tile_features_${i}.""  \
+--task_name "train_cam16_tile_features_${i}"  \
 --batch_size 1 \
 --test \
 --log_interval_local 5 \
---resume "graph_transformer/saved_models/train_cam16_tile_features_${i}.pth"
+--resume "graph_transformer/saved_models/train_cam16_tile_features_${i}..pth"
 
 done
