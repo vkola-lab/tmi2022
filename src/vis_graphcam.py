@@ -26,13 +26,14 @@ def show_cam_on_image(img, mask):
 
 def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
    mask = np.full_like(gray, 0.).astype(np.float32)
+   print (len(patches))
    for ind1, patch in enumerate(patches):
       x, y = patch.split('.')[0].split('_')
       x, y = int(x)/20, int(y)/20
 
       if y <5 or x>w-w_s or y>h-h_s:
          continue
-      print(x,y)
+
       mask[int(y):int(y+h_s), int(x):int(x+w_s)].fill(cam_matrix[ind1][0])
 
    return mask
