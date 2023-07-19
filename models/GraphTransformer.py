@@ -82,7 +82,7 @@ class Classifier(nn.Module):
             torch.save(p, 'graphcam/prob.pt')
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
-            for index_ in range(3):
+            for index_ in range(2):
                 one_hot = np.zeros((1, out.size()[-1]), dtype=np.float32)
                 one_hot[0, index_] = out[0][index_]
                 one_hot_vector = one_hot
