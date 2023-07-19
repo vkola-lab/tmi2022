@@ -29,7 +29,7 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
    for ind1, patch in enumerate(patches):
       x, y = patch.split('.')[0].split('_')
       x, y = int(x), int(y)
-      print (x/w_s,y/h_s)
+      print (x/512,y/512)
       if y <5 or x>w-5 or y>h-5:
          continue
 
