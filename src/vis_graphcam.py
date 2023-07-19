@@ -18,6 +18,7 @@ import argparse
 
 def show_cam_on_image(img, mask):
     heatmap = cv2.applyColorMap(np.uint8(255 * mask), cv2.COLORMAP_JET)
+    print (heatmap)
     heatmap = np.float32(heatmap) / 255
     cam = heatmap + np.float32(img)
     cam = cam / np.max(cam)
@@ -30,6 +31,7 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
       x, y = int(x), int(y)
       if y <5 or x>w-5 or y>h-5:
          continue
+      print (y*h_s,x*w_s)
       mask[int(y*h_s):int((y+1)*h_s), int(x*w_s):int((x+1)*w_s)].fill(cam_matrix[ind1][0])
 
    return mask
@@ -80,6 +82,7 @@ def main(args):
    cam_matrix_0 = torch.load('graphcam/cam_0.pt')
    cam_matrix_0 = torch.mm(assign_matrix, cam_matrix_0.transpose(1,0))
    cam_matrix_0 = cam_matrix_0.cpu()
+   print (cam_matrix_0)
    cam_matrix_1 = torch.load('graphcam/cam_1.pt')
    cam_matrix_1 = torch.mm(assign_matrix, cam_matrix_1.transpose(1,0))
    cam_matrix_1 = cam_matrix_1.cpu()
@@ -89,6 +92,7 @@ def main(args):
 
    # Normalize the graphcam
    cam_matrix_0 = (cam_matrix_0 - cam_matrix_0.min()) / (cam_matrix_0.max() - cam_matrix_0.min())
+   print(cam_matrix_0)
    cam_matrix_0 = cam_matrix_0.detach().numpy()
    cam_matrix_0 = p[0] * cam_matrix_0
    cam_matrix_0 = np.clip(cam_matrix_0, 0, 1)
