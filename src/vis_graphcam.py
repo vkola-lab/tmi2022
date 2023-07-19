@@ -48,12 +48,13 @@ def main(args):
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
    ori = openslide.OpenSlide(os.path.join(args.path_WSI, '{}.tif').format(file_name))
    patch_info = open(os.path.join(args.path_graph, file_name, 'c_idx.txt'), 'r')
+   print (patch_info)
 
    width, height = ori.dimensions
 
    w, h = int(width/512), int(height/512)
    w_r, h_r = int(width/20), int(height/20)
-   print (w_r, h_r)
+
    resized_img = ori.get_thumbnail((w_r,h_r))
    resized_img = resized_img.resize((w_r,h_r))
    w_s, h_s = float(512/20), float(512/20)
