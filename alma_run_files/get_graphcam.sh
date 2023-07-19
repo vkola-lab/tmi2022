@@ -29,5 +29,5 @@ python main.py \
 --test \
 --log_interval_local 5 \
 --resume "graph_transformer/saved_models/train_cam16_tile_features_${i}..pth" \
--- graphcam
+--graphcam
 done
