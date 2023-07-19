@@ -28,7 +28,7 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
    mask = np.full_like(gray, 0.).astype(np.float32)
    for ind1, patch in enumerate(patches):
       x, y = patch.split('.')[0].split('_')
-      x, y = int(x), int(y)
+      x, y = int(x)/20, int(y)/20
 
       # if y <5 or x>w-5 or y>h-5:
       #    continue
@@ -42,7 +42,6 @@ def main(args):
 
    #site, file_name = file_name.split('/')
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
-
 
    p = torch.load('graphcam/prob.pt').cpu().detach().numpy()[0]
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
@@ -66,7 +65,7 @@ def main(args):
       x, y = patch.strip('\n').split('\t')
       if xmax < int(x): xmax = int(x)
       if ymax < int(y): ymax = int(y)
-      x, y = int(x)/20, int(y)/20
+
       patches.append('{}_{}.jpeg'.format(x,y))
 
    output_img = np.asarray(resized_img)[:,:,::-1].copy()
