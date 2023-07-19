@@ -36,7 +36,8 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
 
 def main(args):
    file_name, label = open(args.path_file, 'r').readlines()[0].split('\t')
-   site, file_name = file_name.split('/')
+   print (file_name)
+   #site, file_name = file_name.split('/')
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
    print(file_name)
    print(label)
