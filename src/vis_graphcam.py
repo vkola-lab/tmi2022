@@ -32,7 +32,7 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
 
       if y <5 or x>w-w_s or y>h-h_s:
          continue
-
+      print(x,y)
       mask[int(y):int(y+h_s), int(x):int(x+w_s)].fill(cam_matrix[ind1][0])
 
    return mask
@@ -83,7 +83,7 @@ def main(args):
    cam_matrix_0 = torch.load('graphcam/cam_0.pt')
    cam_matrix_0 = torch.mm(assign_matrix, cam_matrix_0.transpose(1,0))
    cam_matrix_0 = cam_matrix_0.cpu()
-   print (cam_matrix_0)
+
    cam_matrix_1 = torch.load('graphcam/cam_1.pt')
    cam_matrix_1 = torch.mm(assign_matrix, cam_matrix_1.transpose(1,0))
    cam_matrix_1 = cam_matrix_1.cpu()
@@ -93,7 +93,7 @@ def main(args):
 
    # Normalize the graphcam
    cam_matrix_0 = (cam_matrix_0 - cam_matrix_0.min()) / (cam_matrix_0.max() - cam_matrix_0.min())
-   print(cam_matrix_0)
+   print(cam_matrix_0.shape)
    cam_matrix_0 = cam_matrix_0.detach().numpy()
    cam_matrix_0 = p[0] * cam_matrix_0
    cam_matrix_0 = np.clip(cam_matrix_0, 0, 1)
