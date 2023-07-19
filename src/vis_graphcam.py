@@ -66,7 +66,7 @@ def main(args):
       x, y = patch.strip('\n').split('\t')
       if xmax < int(x): xmax = int(x)
       if ymax < int(y): ymax = int(y)
-      x, y = int(x / 20), int(y / 20)
+      x, y = int(x)/20, int(y)/20
       patches.append('{}_{}.jpeg'.format(x,y))
 
    output_img = np.asarray(resized_img)[:,:,::-1].copy()
