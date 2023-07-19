@@ -83,9 +83,9 @@ def main(args):
    cam_matrix_1 = torch.load('graphcam/cam_1.pt')
    cam_matrix_1 = torch.mm(assign_matrix, cam_matrix_1.transpose(1,0))
    cam_matrix_1 = cam_matrix_1.cpu()
-   cam_matrix_2 = torch.load('graphcam/cam_2.pt')
-   cam_matrix_2 = torch.mm(assign_matrix, cam_matrix_2.transpose(1,0))
-   cam_matrix_2 = cam_matrix_2.cpu()
+   # cam_matrix_2 = torch.load('graphcam/cam_2.pt')
+   # cam_matrix_2 = torch.mm(assign_matrix, cam_matrix_2.transpose(1,0))
+   # cam_matrix_2 = cam_matrix_2.cpu()
 
    # Normalize the graphcam
    cam_matrix_0 = (cam_matrix_0 - cam_matrix_0.min()) / (cam_matrix_0.max() - cam_matrix_0.min())
@@ -95,11 +95,11 @@ def main(args):
    cam_matrix_1 = (cam_matrix_1 - cam_matrix_1.min()) / (cam_matrix_1.max() - cam_matrix_1.min())
    cam_matrix_1 = cam_matrix_1.detach().numpy()
    cam_matrix_1 = p[1] * cam_matrix_1
-   cam_matrix_1 = np.clip(cam_matrix_1, 0, 1)
-   cam_matrix_2 = (cam_matrix_2 - cam_matrix_2.min()) / (cam_matrix_2.max() - cam_matrix_2.min())
-   cam_matrix_2 = cam_matrix_2.detach().numpy()
-   cam_matrix_2 = p[2] * cam_matrix_2
-   cam_matrix_2 = np.clip(cam_matrix_2, 0, 1)
+   # cam_matrix_1 = np.clip(cam_matrix_1, 0, 1)
+   # cam_matrix_2 = (cam_matrix_2 - cam_matrix_2.min()) / (cam_matrix_2.max() - cam_matrix_2.min())
+   # cam_matrix_2 = cam_matrix_2.detach().numpy()
+   # cam_matrix_2 = p[2] * cam_matrix_2
+   # cam_matrix_2 = np.clip(cam_matrix_2, 0, 1)
 
    output_img_copy =np.copy(output_img)
 
@@ -112,22 +112,23 @@ def main(args):
    mask1 = cam_to_mask(gray, patches, cam_matrix_1, w, h, w_s, h_s)
    vis1 = show_cam_on_image(image_transformer_attribution, mask1)
    vis1 =  np.uint8(255 * vis1)
-   mask2 = cam_to_mask(gray, patches, cam_matrix_2, w, h, w_s, h_s)
-   vis2 = show_cam_on_image(image_transformer_attribution, mask2)
-   vis2 =  np.uint8(255 * vis2)
+   # mask2 = cam_to_mask(gray, patches, cam_matrix_2, w, h, w_s, h_s)
+   # vis2 = show_cam_on_image(image_transformer_attribution, mask2)
+   # vis2 =  np.uint8(255 * vis2)
 
    ##########################################
    h, w, _ = output_img.shape
    if h > w:
-      vis_merge = cv2.hconcat([output_img, vis0, vis1, vis2])
+      vis_merge = cv2.hconcat([output_img, vis0, vis1])
    else:
-      vis_merge = cv2.vconcat([output_img, vis0, vis1, vis2])
+      vis_merge = cv2.vconcat([output_img, vis0, vis1])
 
-   cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_all.png'.format(file_name, site), vis_merge)
+   cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_all.png'.format(file_name), vis_merge)
 
-   cv2.imwrite('graphcam_vis/{}_{}_all_types_ori.png'.format(file_name, site), output_img)
-   cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_luad.png'.format(file_name, site), vis1)
-   cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_lscc.png'.format(file_name, site), vis2)
+   cv2.imwrite('graphcam_vis/{}_all_types_ori.png'.format(file_name), output_img)
+   cv2.imwrite('graphcam_vis/{}_1_all_types_cam_luad.png'.format(file_name), vis1)
+   cv2.imwrite('graphcam_vis/{}_0_all_types_cam_luad.png'.format(file_name), vis0)
+   #cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_lscc.png'.format(file_name), vis2)
 
 
 if __name__ == "__main__":
