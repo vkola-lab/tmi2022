@@ -29,21 +29,20 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
    for ind1, patch in enumerate(patches):
       x, y = patch.split('.')[0].split('_')
       x, y = int(x), int(y)
-      print (x/512,y/512)
-      if y <5 or x>w-5 or y>h-5:
-         continue
 
-      mask[int(y*h_s):int((y+1)*h_s), int(x*w_s):int((x+1)*w_s)].fill(cam_matrix[ind1][0])
+      # if y <5 or x>w-5 or y>h-5:
+      #    continue
+
+      mask[int(y):int(y+h_s), int(x):int(x+w_s)].fill(cam_matrix[ind1][0])
 
    return mask
 
 def main(args):
    file_name, label = open(args.path_file, 'r').readlines()[0].split('\t')
-   print (file_name)
+
    #site, file_name = file_name.split('/')
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
-   print(file_name)
-   print(label)
+
 
    p = torch.load('graphcam/prob.pt').cpu().detach().numpy()[0]
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
@@ -54,10 +53,11 @@ def main(args):
 
    w, h = int(width/512), int(height/512)
    w_r, h_r = int(width/20), int(height/20)
+   print (w_r, h_r)
    resized_img = ori.get_thumbnail((w_r,h_r))
    resized_img = resized_img.resize((w_r,h_r))
    w_s, h_s = float(512/20), float(512/20)
-   print(w_s, h_s)
+
 
    patch_info = patch_info.readlines()
    patches = []
@@ -66,6 +66,7 @@ def main(args):
       x, y = patch.strip('\n').split('\t')
       if xmax < int(x): xmax = int(x)
       if ymax < int(y): ymax = int(y)
+      x, y = int(x / 20), int(y / 20)
       patches.append('{}_{}.jpeg'.format(x,y))
 
    output_img = np.asarray(resized_img)[:,:,::-1].copy()
