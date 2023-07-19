@@ -37,13 +37,13 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
 def main(args):
    file_name, label = open(args.path_file, 'r').readlines()[0].split('\t')
    site, file_name = file_name.split('/')
-   file_path = os.path.join(args.path_patches, '{}_files/20.0/'.format(file_name))
+   file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
    print(file_name)
    print(label)
 
    p = torch.load('graphcam/prob.pt').cpu().detach().numpy()[0]
-   file_path = os.path.join(args.path_patches, '{}_files/20.0/'.format(file_name))
-   ori = openslide.OpenSlide(os.path.join(args.path_WSI, '{}.svs').format(file_name))
+   file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
+   ori = openslide.OpenSlide(os.path.join(args.path_WSI, '{}.tif').format(file_name))
    patch_info = open(os.path.join(args.path_graph, file_name, 'c_idx.txt'), 'r')
 
    width, height = ori.dimensions
