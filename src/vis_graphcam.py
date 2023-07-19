@@ -30,8 +30,8 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
       x, y = patch.split('.')[0].split('_')
       x, y = int(x)/20, int(y)/20
 
-      # if y <5 or x>w-5 or y>h-5:
-      #    continue
+      if y <5 or x>w-w_s or y>h-h_s:
+         continue
 
       mask[int(y):int(y+h_s), int(x):int(x+w_s)].fill(cam_matrix[ind1][0])
 
@@ -111,10 +111,10 @@ def main(args):
    gray = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)
    image_transformer_attribution = (output_img_copy - output_img_copy.min()) / (output_img_copy.max() - output_img_copy.min())
 
-   mask0 = cam_to_mask(gray, patches, cam_matrix_0, w, h, w_s, h_s)
+   mask0 = cam_to_mask(gray, patches, cam_matrix_0, w_r, h_r, w_s, h_s)
    vis0 = show_cam_on_image(image_transformer_attribution, mask0)
    vis0 =  np.uint8(255 * vis0) 
-   mask1 = cam_to_mask(gray, patches, cam_matrix_1, w, h, w_s, h_s)
+   mask1 = cam_to_mask(gray, patches, cam_matrix_1, w_r, h_r, w_s, h_s)
    vis1 = show_cam_on_image(image_transformer_attribution, mask1)
    vis1 =  np.uint8(255 * vis1)
    # mask2 = cam_to_mask(gray, patches, cam_matrix_2, w, h, w_s, h_s)
