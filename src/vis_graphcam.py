@@ -123,7 +123,7 @@ def main(args):
    else:
       vis_merge = cv2.vconcat([output_img, vis0, vis1])
 
-   cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_all.png'.format(file_name), vis_merge)
+   cv2.imwrite('graphcam_vis/{}_all_types_cam_all.png'.format(file_name), vis_merge)
 
    cv2.imwrite('graphcam_vis/{}_all_types_ori.png'.format(file_name), output_img)
    cv2.imwrite('graphcam_vis/{}_1_all_types_cam_luad.png'.format(file_name), vis1)
