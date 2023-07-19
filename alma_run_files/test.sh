@@ -15,7 +15,6 @@ source ~/.bashrc
 mamba activate  dl_torch
 cd /home/ofourkioti/Projects/tmi2022/
 
-
 for i in {0..4};
 do export CUDA_VISIBLE_DEVICES=0
 python main.py \
