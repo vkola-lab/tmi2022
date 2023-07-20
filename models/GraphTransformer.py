@@ -95,6 +95,6 @@ class Classifier(nn.Module):
                 cam = self.transformer.relprop(torch.tensor(one_hot_vector).to(X.device), method="transformer_attribution", is_ablation=False, 
                                             start_layer=0, **kwargs)
 
-                torch.save(cam, 'graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
+                torch.save(cam, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
 
         return pred,labels,loss
