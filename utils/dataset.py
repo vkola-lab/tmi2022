@@ -51,8 +51,8 @@ class GraphDataset(data.Dataset):
         self.ids = ids
         #self.target_patch_size = target_patch_size
         #self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
-        self.classdict = {'normal_tissue': 0, 'tumor_tissue': 1}        #
-        #self.classdict = { 'LUAD': 0, 'LUSC': 1}
+        #self.classdict = {'normal_tissue': 0, 'tumor_tissue': 1}        #
+        self.classdict = { 'LUAD': 0, 'LUSC': 1}
         #self._up_kwargs = {'mode': 'bilinear'}
 
     def __getitem__(self, index):
@@ -86,7 +86,6 @@ class GraphDataset(data.Dataset):
         #features = features.unsqueeze(0)
         sample['image'] = features
         sample['adj_s'] = adj_s
-        sample['name'] = file_name
 
         # return {'image': image.astype(np.float32), 'label': label.astype(np.int64)}
 

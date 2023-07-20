@@ -75,7 +75,7 @@ class Trainer(object):
         self.metrics.plotcm()
 
     def train(self, sample, model):
-        node_feat, labels, adjs, masks , names= preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'], sample['name'])
+        node_feat, labels, adjs, masks , names= preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'], sample['id'])
 
         pred,labels,loss = model.forward(node_feat, labels, adjs, masks, names)
 
@@ -97,7 +97,7 @@ class Evaluator(object):
         self.metrics.plotcm()
 
     def eval_test(self, sample, model, graphcam_flag=False):
-        node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'],sample['name'])
+        node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'],sample['id'])
         if not graphcam_flag:
             with torch.no_grad():
                 pred,labels,loss = model.forward(node_feat, labels, adjs, masks, names)
