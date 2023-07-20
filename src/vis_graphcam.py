@@ -33,9 +33,9 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
       if y <5 or x>w-w_s or y>h-h_s:
          print (x, w, y, h)
          continue
-      print (x, y)
+
       mask[int(x):int(x+h_s), int(y):int(y+w_s)].fill(cam_matrix[ind1][0])
-   print (mask)
+
    return mask
 
 def main(args):
