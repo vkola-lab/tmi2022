@@ -17,9 +17,7 @@ import argparse
 
 
 def show_cam_on_image(img, mask):
-    print ('mask :',mask)
     heatmap = cv2.applyColorMap(np.uint8(255 * mask), cv2.COLORMAP_JET)
-    print ('heatmap:', heatmap)
     heatmap = np.float32(heatmap) / 255
     cam = heatmap + np.float32(img)
     cam = cam / np.max(cam)
@@ -34,6 +32,7 @@ def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
 
       if y <5 or x>w-w_s or y>h-h_s:
          continue
+      print (x, y)
       mask[int(x):int(x+h_s), int(y):int(y+w_s)].fill(cam_matrix[ind1][0])
    print (mask)
    return mask
@@ -100,7 +99,7 @@ def main(args):
    cam_matrix_1 = (cam_matrix_1 - cam_matrix_1.min()) / (cam_matrix_1.max() - cam_matrix_1.min())
    cam_matrix_1 = cam_matrix_1.detach().numpy()
    cam_matrix_1 = p[1] * cam_matrix_1
-   # cam_matrix_1 = np.clip(cam_matrix_1, 0, 1)
+   cam_matrix_1 = np.clip(cam_matrix_1, 0, 1)
    # cam_matrix_2 = (cam_matrix_2 - cam_matrix_2.min()) / (cam_matrix_2.max() - cam_matrix_2.min())
    # cam_matrix_2 = cam_matrix_2.detach().numpy()
    # cam_matrix_2 = p[2] * cam_matrix_2
