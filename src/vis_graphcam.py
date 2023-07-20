@@ -49,7 +49,6 @@ def main(args):
    ori = openslide.OpenSlide(os.path.join(args.path_WSI, '{}.tif').format(file_name))
    patch_info = open(os.path.join(args.path_graph, file_name, 'c_idx.txt'), 'r')
 
-
    width, height = ori.dimensions
 
    w, h = int(width/512), int(height/512)
