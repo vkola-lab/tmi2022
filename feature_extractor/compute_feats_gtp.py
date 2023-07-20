@@ -92,29 +92,30 @@ def save_hdf5(output_path, asset_dict, attr_dict= None, mode='a'):
     file.close()
     return output_path
 
+
+
 def adj_matrix(wsi_coords):
     total = wsi_coords.shape[0]
-    adj_s = np.zeros((total, total))
 
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
     neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
 
+    adj_s = []
 
-    for i in range(total-1):
+    for i in range(total - 1):
         x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
         indices = neighbor_indices[i]
         sum = 0
-        for j in range(i+1, indices.shape[0]):
+        for j in indices:
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
-            if abs(int(x_i)-int(x_j)) <=1536 and abs(int(y_i)-int(y_j)) <= 1536:
-                adj_s[i][j] = 1
-                adj_s[j][i] = 1
-                sum+=1
-            if sum==8:
+            if abs(int(x_i) - int(x_j)) <= 512 and abs(int(y_i) - int(y_j)) <= 512:
+                adj_s.append((i, j))
+                sum += 1
+            if sum == 9:
                 break
-
     adj_s = torch.from_numpy(adj_s)
     adj_s = adj_s.cuda()
+
     return adj_s
 
 def save_coords(txt_file, coords):
@@ -128,14 +129,11 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
     for i in range(0, num_bags):
 
-
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
 
-
-        slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
+        slide_file_path = os.path.join(data_slide_dir, slide_id +'.jpg')
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(os.path.join(save_path,  'simclr_files'), exist_ok=True)
-
 
         dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
