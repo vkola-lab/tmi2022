@@ -55,8 +55,8 @@ class Classifier(nn.Module):
         if graphcam_flag:
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
-            torch.save(s_matrix, 'graphcam/{}_s_matrix.pt'.format(file_names[0][0]))
-            torch.save(s[0], 'graphcam/{}_s_matrix_ori.pt'.format(file_names[0][0]))
+            torch.save(s_matrix, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_s_matrix.pt'.format(file_names[0][0]))
+            torch.save(s[0], '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_s_matrix_ori.pt'.format(file_names[0][0]))
             
             if path.exists('graphcam/att_1.pt'):
                 os.remove('graphcam/att_1.pt')
@@ -79,7 +79,7 @@ class Classifier(nn.Module):
         if graphcam_flag:
             print('GraphCAM enabled')
             p = F.softmax(out)
-            torch.save(p, 'graphcam/{}_prob.pt'.format(file_names[0][0]))
+            torch.save(p, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_prob.pt'.format(file_names[0][0]))
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
             for index_ in range(2):
