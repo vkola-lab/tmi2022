@@ -48,7 +48,7 @@ def main(args):
    file_path = os.path.join(args.path_patches, '{}_files/1.0/'.format(file_name))
    ori = openslide.OpenSlide(os.path.join(args.path_WSI, '{}.tif').format(file_name))
    patch_info = open(os.path.join(args.path_graph, file_name, 'c_idx.txt'), 'r')
-   print (patch_info)
+
 
    width, height = ori.dimensions
 
@@ -74,7 +74,7 @@ def main(args):
    #-----------------------------------------------------------------------------------------------------#
    # GraphCAM
    print('visulize GraphCAM')
-   assign_matrix = torch.load('graphcam/s_matrix_ori.pt')
+   assign_matrix = torch.load('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_s_matrix_ori.pt'.format(file_name))
    m = nn.Softmax(dim=1)
    assign_matrix = m(assign_matrix)
 
@@ -82,11 +82,11 @@ def main(args):
    p = np.clip(p, 0.4, 1)
 
    # Load graphcam for differnet class
-   cam_matrix_0 = torch.load('graphcam/cam_0.pt')
+   cam_matrix_0 = torch.load('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_cam_0.pt'.format(file_name))
    cam_matrix_0 = torch.mm(assign_matrix, cam_matrix_0.transpose(1,0))
    cam_matrix_0 = cam_matrix_0.cpu()
 
-   cam_matrix_1 = torch.load('graphcam/cam_1.pt')
+   cam_matrix_1 = torch.load('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_cam_1.pt'.format(file_name))
    cam_matrix_1 = torch.mm(assign_matrix, cam_matrix_1.transpose(1,0))
    cam_matrix_1 = cam_matrix_1.cpu()
    # cam_matrix_2 = torch.load('graphcam/cam_2.pt')
@@ -130,11 +130,11 @@ def main(args):
    else:
       vis_merge = cv2.vconcat([output_img, vis0, vis1])
 
-   cv2.imwrite('graphcam_vis/{}_all_types_cam_all.png'.format(file_name), vis_merge)
+   cv2.imwrite('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam_vis/{}_all_types_cam_all.png'.format(file_name), vis_merge)
 
-   cv2.imwrite('graphcam_vis/{}_all_types_ori.png'.format(file_name), output_img)
-   cv2.imwrite('graphcam_vis/{}_1_all_types_cam_luad.png'.format(file_name), vis1)
-   cv2.imwrite('graphcam_vis/{}_0_all_types_cam_luad.png'.format(file_name), vis0)
+   cv2.imwrite('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam_vis/{}_all_types_ori.png'.format(file_name), output_img)
+   cv2.imwrite('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam_vis/{}_1_all_types_cam_luad.png'.format(file_name), vis1)
+   cv2.imwrite('/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam_vis/{}_0_all_types_cam_luad.png'.format(file_name), vis0)
    #cv2.imwrite('graphcam_vis/{}_{}_all_types_cam_lscc.png'.format(file_name), vis2)
 
 
