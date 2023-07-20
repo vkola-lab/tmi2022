@@ -79,7 +79,7 @@ class Classifier(nn.Module):
         if graphcam_flag:
             print('GraphCAM enabled')
             p = F.softmax(out)
-            torch.save(p, '{}_graphcam/prob.pt'.format(file_names[0]))
+            torch.save(p, 'graphcam/{}_prob.pt'.format(file_names[0]))
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
             for index_ in range(2):
