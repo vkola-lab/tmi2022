@@ -64,7 +64,7 @@ learning_rate = args.lr
 model = Classifier(n_class)
 model = nn.DataParallel(model)
 if args.resume:
-    print('load model{}'.format(args.resume))
+    print('load model {}'.format(args.resume))
     model.load_state_dict(torch.load(args.resume))
 
 if torch.cuda.is_available():

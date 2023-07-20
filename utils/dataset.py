@@ -85,7 +85,8 @@ class GraphDataset(data.Dataset):
 
         #features = features.unsqueeze(0)
         sample['image'] = features
-        sample['adj_s'] = adj_s     #adj_s.to(torch.double)
+        sample['adj_s'] = adj_s
+        sample['name'] = file_name  #adj_s.to(torch.double)
         # return {'image': image.astype(np.float32), 'label': label.astype(np.int64)}
 
         return sample

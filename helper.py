@@ -25,7 +25,7 @@ def collate(batch):
     adj_s = [ b['adj_s'] for b in batch ]
     return {'image': image, 'label': label, 'id': id, 'adj_s': adj_s}
 
-def preparefeatureLabel(batch_graph, batch_label, batch_adjs):
+def preparefeatureLabel(batch_graph, batch_label, batch_adjs, name):
     batch_size = len(batch_graph)
     labels = torch.LongTensor(batch_size)
     max_node_num = 0
@@ -37,6 +37,7 @@ def preparefeatureLabel(batch_graph, batch_label, batch_adjs):
     masks = torch.zeros(batch_size, max_node_num)
     adjs =  torch.zeros(batch_size, max_node_num, max_node_num)
     batch_node_feat = torch.zeros(batch_size, max_node_num, 512)
+    names=[]
 
     for i in range(batch_size):
         cur_node_num =  batch_graph[i].shape[0]
@@ -48,14 +49,15 @@ def preparefeatureLabel(batch_graph, batch_label, batch_adjs):
         adjs[i, 0:cur_node_num, 0:cur_node_num] = batch_adjs[i]
         
         #masks
-        masks[i,0:cur_node_num] = 1  
+        masks[i,0:cur_node_num] = 1
+        names.append(name)
 
     node_feat = batch_node_feat.cuda()
     labels = labels.cuda()
     adjs = adjs.cuda()
     masks = masks.cuda()
 
-    return node_feat, labels, adjs, masks
+    return node_feat, labels, adjs, masks, names
 
 class Trainer(object):
     def __init__(self, n_class):
@@ -73,9 +75,9 @@ class Trainer(object):
         self.metrics.plotcm()
 
     def train(self, sample, model):
-        node_feat, labels, adjs, masks = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'])
+        node_feat, labels, adjs, masks , names= preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'], sample['name'])
 
-        pred,labels,loss = model.forward(node_feat, labels, adjs, masks)
+        pred,labels,loss = model.forward(node_feat, labels, adjs, masks, names)
 
         return pred,labels,loss
 
@@ -95,11 +97,11 @@ class Evaluator(object):
         self.metrics.plotcm()
 
     def eval_test(self, sample, model, graphcam_flag=False):
-        node_feat, labels, adjs, masks = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'])
+        node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'])
         if not graphcam_flag:
             with torch.no_grad():
-                pred,labels,loss = model.forward(node_feat, labels, adjs, masks)
+                pred,labels,loss = model.forward(node_feat, labels, adjs, masks, names)
         else:
             torch.set_grad_enabled(True)
-            pred,labels,loss= model.forward(node_feat, labels, adjs, masks, graphcam_flag=graphcam_flag)
+            pred,labels,loss= model.forward(node_feat, labels, adjs, masks, names, graphcam_flag=graphcam_flag)
         return pred,labels,loss

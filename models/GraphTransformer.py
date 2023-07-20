@@ -34,7 +34,7 @@ class Classifier(nn.Module):
         self.pool1 = Linear(self.embed_dim, self.node_cluster_num)                                          # 100-> 20
 
 
-    def forward(self,node_feat,labels,adj,mask,is_print=False, graphcam_flag=False):
+    def forward(self,node_feat,labels,adj,mask,file_names,is_print=False, graphcam_flag=False):
         # node_feat, labels = self.PrepareFeatureLabel(batch_graph)
         cls_loss=node_feat.new_zeros(self.num_layers)
         rank_loss=node_feat.new_zeros(self.num_layers-1)
@@ -55,8 +55,8 @@ class Classifier(nn.Module):
         if graphcam_flag:
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
-            torch.save(s_matrix, 'graphcam/s_matrix.pt')
-            torch.save(s[0], 'graphcam/s_matrix_ori.pt')
+            torch.save(s_matrix, 'graphcam/{}_s_matrix.pt'.format(file_names[0]))
+            torch.save(s[0], 'graphcam/{}_s_matrix_ori.pt'.format(file_names[0]))
             
             if path.exists('graphcam/att_1.pt'):
                 os.remove('graphcam/att_1.pt')
@@ -79,7 +79,7 @@ class Classifier(nn.Module):
         if graphcam_flag:
             print('GraphCAM enabled')
             p = F.softmax(out)
-            torch.save(p, 'graphcam/prob.pt')
+            torch.save(p, '{}_graphcam/prob.pt'.format(file_names[0]))
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
             for index_ in range(2):
@@ -95,6 +95,6 @@ class Classifier(nn.Module):
                 cam = self.transformer.relprop(torch.tensor(one_hot_vector).to(X.device), method="transformer_attribution", is_ablation=False, 
                                             start_layer=0, **kwargs)
 
-                torch.save(cam, 'graphcam/cam_{}.pt'.format(index_))
+                torch.save(cam, 'graphcam/{}_cam_{}.pt'.format(file_names[0],index_))
 
         return pred,labels,loss
