@@ -17,6 +17,7 @@ import argparse
 
 
 def show_cam_on_image(img, mask):
+    print (mask)
     heatmap = cv2.applyColorMap(np.uint8(255 * mask), cv2.COLORMAP_JET)
     print (heatmap)
     heatmap = np.float32(heatmap) / 255
@@ -26,13 +27,13 @@ def show_cam_on_image(img, mask):
 
 def cam_to_mask(gray, patches, cam_matrix, w, h, w_s, h_s):
    mask = np.full_like(gray, 0.).astype(np.float32)
-   print (len(patches))
+
    for ind1, patch in enumerate(patches):
       x, y = patch.split('.')[0].split('_')
-      x, y = int(x)/20, int(y)/20
+      x, y = int(x), int(y)
 
-      if y <5 or x>w-w_s or y>h-h_s:
-         continue
+      # if y <5 or x>w-w_s or y>h-h_s:
+      #    continue
 
       mask[int(y):int(y+h_s), int(x):int(x+w_s)].fill(cam_matrix[ind1][0])
 
@@ -94,7 +95,6 @@ def main(args):
 
    # Normalize the graphcam
    cam_matrix_0 = (cam_matrix_0 - cam_matrix_0.min()) / (cam_matrix_0.max() - cam_matrix_0.min())
-   print(cam_matrix_0.shape)
    cam_matrix_0 = cam_matrix_0.detach().numpy()
    cam_matrix_0 = p[0] * cam_matrix_0
    cam_matrix_0 = np.clip(cam_matrix_0, 0, 1)
@@ -114,6 +114,7 @@ def main(args):
 
    mask0 = cam_to_mask(gray, patches, cam_matrix_0, w_r, h_r, w_s, h_s)
    vis0 = show_cam_on_image(image_transformer_attribution, mask0)
+   print (vis0)
    vis0 =  np.uint8(255 * vis0) 
    mask1 = cam_to_mask(gray, patches, cam_matrix_1, w_r, h_r, w_s, h_s)
    vis1 = show_cam_on_image(image_transformer_attribution, mask1)

@@ -100,7 +100,7 @@ def adj_matrix(wsi_coords):
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
     neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
 
-    adj_s = []
+    adj_s = np.zeros((total, total))
 
     for i in range(total - 1):
         x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
@@ -108,11 +108,12 @@ def adj_matrix(wsi_coords):
         sum = 0
         for j in indices:
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
-            if abs(int(x_i) - int(x_j)) <= 512 and abs(int(y_i) - int(y_j)) <= 512:
-                adj_s.append((i, j))
+            if abs(int(x_i) - int(x_j)) <= 256 and abs(int(y_i) - int(y_j)) <= 256:
+                adj_s[i][j]=1
                 sum += 1
             if sum == 9:
                 break
+
     adj_s = torch.from_numpy(adj_s)
     adj_s = adj_s.cuda()
 
