@@ -97,7 +97,7 @@ class Evaluator(object):
         self.metrics.plotcm()
 
     def eval_test(self, sample, model, graphcam_flag=False):
-        node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'])
+        node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'],sample['name'])
         if not graphcam_flag:
             with torch.no_grad():
                 pred,labels,loss = model.forward(node_feat, labels, adjs, masks, names)
