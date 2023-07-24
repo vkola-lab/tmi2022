@@ -145,7 +145,7 @@ for epoch in range(num_epochs):
                     evaluator.plot_cm()
 
             print(slide_probs)
-            slide_probs=np.reshape(len(slide_probs),2)
+            slide_probs=np.vstack((slide_probs))
 
             auc = roc_auc_score(slide_labels, slide_probs[:,1], average="macro")
             fscore = f1_score(slide_labels, np.round(np.clip(slide_preds, 0, 1)), average="macro")
