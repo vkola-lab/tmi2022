@@ -20,9 +20,9 @@ do export CUDA_VISIBLE_DEVICES=0
 python main.py \
 --n_class 2 \
 --data_path '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/' \
---val_set "colon_splits/val_${i}.txt" \
---model_path "graph_transformer/saved_models/" \
---log_path "graph_transformer/runs/" \
+--val_set "colon_splits/test_${i}.txt" \
+--model_path "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models" \
+--log_path "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models/" \
 --task_name "colon_${i}"  \
 --batch_size 1 \
 --test \
