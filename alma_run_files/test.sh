@@ -28,5 +28,4 @@ python main.py \
 --test \
 --log_interval_local 5 \
 --resume "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models/colon_${i}.pth"
-
 done
