@@ -69,6 +69,7 @@ class Classifier(nn.Module):
         X = torch.cat([cls_token, X], dim=1)
 
         out = self.transformer(X)
+        prob= nn.Softmax(dim=1)(out)
 
         # loss
         loss = self.criterion(out, labels)
@@ -97,4 +98,4 @@ class Classifier(nn.Module):
 
                 torch.save(cam, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
 
-        return pred,labels,loss, out
+        return pred,labels,loss, prob
