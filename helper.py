@@ -103,4 +103,4 @@ class Evaluator(object):
         else:
             torch.set_grad_enabled(True)
             pred,labels,loss, out= model.forward(node_feat, labels, adjs, masks, names, graphcam_flag=graphcam_flag)
-        return pred,labels,loss
+        return pred,labels,loss, out
