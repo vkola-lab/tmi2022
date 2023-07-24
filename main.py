@@ -143,8 +143,9 @@ for epoch in range(num_epochs):
                 if (i_batch + 1) % args.log_interval_local == 0:
                     print('[%d/%d] val agg acc: %.3f' % (total, total_val_num, evaluator.get_scores()))
                     evaluator.plot_cm()
+            slide_probs=np.reshape(len(slide_probs),2)
             print (slide_probs)
-            auc = roc_auc_score(slide_labels, slide_probs, average="macro")
+            auc = roc_auc_score(slide_labels, slide_probs[:,1], average="macro")
             fscore = f1_score(slide_labels, np.round(np.clip(slide_preds, 0, 1)), average="macro")
             print('[%d/%d] val agg acc: %.3f' % (total_val_num, total_val_num, evaluator.get_scores()))
             print('[%d/%d] val AUC: %.3f' % (total_val_num, total_val_num, auc ))
