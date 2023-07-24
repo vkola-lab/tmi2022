@@ -21,12 +21,12 @@ python main.py \
 --n_class 2 \
 --data_path '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/' \
 --val_set "colon_splits/test_${i}.txt" \
---model_path "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models" \
+--model_path "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models/" \
 --log_path "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models/" \
 --task_name "colon_${i}"  \
 --batch_size 1 \
 --test \
 --log_interval_local 5 \
---resume "colon_${i}.pth"
+--resume "/home/ofourkioti/Projects/tmi2022/graph_transformer/saved_models/colon_${i}.pth"
 
 done
