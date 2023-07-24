@@ -97,7 +97,7 @@ for epoch in range(num_epochs):
         for i_batch, sample_batched in enumerate(dataloader_train):
             #scheduler(optimizer, i_batch, epoch, best_pred)
 
-            preds,labels,loss = trainer.train(sample_batched, model)
+            preds, labels, loss ,out= trainer.train(sample_batched, model)
 
             optimizer.zero_grad()
             loss.backward()
@@ -127,12 +127,14 @@ for epoch in range(num_epochs):
             batch_idx = 0
             slide_labels=[]
             slide_preds=[]
+            slide_probs=[]
             for i_batch, sample_batched in enumerate(dataloader_val):
                 #pred, label, _ = evaluator.eval_test(sample_batched, model)
 
-                preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam)
+                preds, labels, _ ,out= evaluator.eval_test(sample_batched, model, graphcam)
                 slide_labels.append(labels.cpu().numpy())
                 slide_preds.append(preds.cpu().numpy())
+                slide_probs.append(out.cpu().numpy())
                 
                 total += len(labels)
 
@@ -141,8 +143,8 @@ for epoch in range(num_epochs):
                 if (i_batch + 1) % args.log_interval_local == 0:
                     print('[%d/%d] val agg acc: %.3f' % (total, total_val_num, evaluator.get_scores()))
                     evaluator.plot_cm()
-            print (slide_preds)
-            auc = roc_auc_score(slide_labels, slide_preds, average="macro")
+            print (slide_probs)
+            auc = roc_auc_score(slide_labels, slide_probs, average="macro")
             fscore = f1_score(slide_labels, np.round(np.clip(slide_preds, 0, 1)), average="macro")
             print('[%d/%d] val agg acc: %.3f' % (total_val_num, total_val_num, evaluator.get_scores()))
             print('[%d/%d] val AUC: %.3f' % (total_val_num, total_val_num, auc ))
