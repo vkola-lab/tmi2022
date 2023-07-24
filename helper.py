@@ -99,7 +99,7 @@ class Evaluator(object):
         node_feat, labels, adjs, masks, names = preparefeatureLabel(sample['image'], sample['label'], sample['adj_s'],sample['id'])
         if not graphcam_flag:
             with torch.no_grad():
-                ppred,labels,loss, out = model.forward(node_feat, labels, adjs, masks, names)
+                pred,labels,loss, out = model.forward(node_feat, labels, adjs, masks, names)
         else:
             torch.set_grad_enabled(True)
             pred,labels,loss, out= model.forward(node_feat, labels, adjs, masks, names, graphcam_flag=graphcam_flag)
