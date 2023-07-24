@@ -55,8 +55,8 @@ class Classifier(nn.Module):
         if graphcam_flag:
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
-            torch.save(s_matrix, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_s_matrix.pt'.format(file_names[0][0]))
-            torch.save(s[0], '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_s_matrix_ori.pt'.format(file_names[0][0]))
+            torch.save(s_matrix, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_s_matrix.pt'.format(file_names[0][0]))
+            torch.save(s[0], '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/Colonoscopy/{}_s_matrix_ori.pt'.format(file_names[0][0]))
             
             if path.exists('graphcam/att_1.pt'):
                 os.remove('graphcam/att_1.pt')
@@ -79,7 +79,7 @@ class Classifier(nn.Module):
         if graphcam_flag:
             print('GraphCAM enabled')
             p = F.softmax(out)
-            torch.save(p, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_prob.pt'.format(file_names[0][0]))
+            torch.save(p, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_prob.pt'.format(file_names[0][0]))
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
             for index_ in range(2):
@@ -95,6 +95,6 @@ class Classifier(nn.Module):
                 cam = self.transformer.relprop(torch.tensor(one_hot_vector).to(X.device), method="transformer_attribution", is_ablation=False, 
                                             start_layer=0, **kwargs)
 
-                torch.save(cam, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16/graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
+                torch.save(cam, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
 
         return pred,labels,loss

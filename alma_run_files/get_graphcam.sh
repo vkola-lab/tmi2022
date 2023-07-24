@@ -20,14 +20,30 @@ for i in {0..4};
 do export CUDA_VISIBLE_DEVICES=0
 python main.py \
 --n_class 2 \
---data_path '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16' \
+--data_path '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy' \
 --val_set "cam_16_splits/test_${i}.txt" \
 --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
---task_name "train_cam16_tile_features_${i}"  \
+--task_name "colon_${i}"  \
 --batch_size 1 \
 --test \
 --log_interval_local 5 \
---resume "graph_transformer/saved_models/train_cam16_tile_features_${i}..pth" \
+--resume "graph_transformer/saved_models/colon${i}.pth" \
 --graphcam
 done
+
+#for i in {0..4};
+#do export CUDA_VISIBLE_DEVICES=0
+#python main.py \
+#--n_class 2 \
+#--data_path '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/cam-16' \
+#--val_set "cam_16_splits/test_${i}.txt" \
+#--model_path "graph_transformer/saved_models/" \
+#--log_path "graph_transformer/runs/" \
+#--task_name "train_cam16_tile_features_${i}"  \
+#--batch_size 1 \
+#--test \
+#--log_interval_local 5 \
+#--resume "graph_transformer/saved_models/train_cam16_tile_features_${i}..pth" \
+#--graphcam
+#done
