@@ -56,7 +56,7 @@ class Classifier(nn.Module):
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
             torch.save(s_matrix, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_s_matrix.pt'.format(file_names[0][0]))
-            torch.save(s[0], '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/{}_s_matrix_ori.pt'.format(file_names[0][0]))
+            torch.save(s[0], '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmigit/Colonoscopy/graphcam/{}_s_matrix_ori.pt'.format(file_names[0][0]))
             
             if path.exists('graphcam/att_1.pt'):
                 os.remove('graphcam/att_1.pt')
