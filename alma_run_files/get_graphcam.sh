@@ -28,7 +28,7 @@ python main.py \
 --batch_size 1 \
 --test \
 --log_interval_local 5 \
---resume "graph_transformer/saved_models/colon${i}.pth" \
+--resume "graph_transformer/saved_models/colon_${i}.pth" \
 --graphcam
 done
 
