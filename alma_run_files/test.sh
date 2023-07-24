@@ -23,7 +23,7 @@ python main.py \
 --val_set "colon_splits/val_${i}.txt" \
 --model_path "graph_transformer/saved_models/" \
 --log_path "graph_transformer/runs/" \
---task_name "colon_${i}$"  \
+--task_name "colon_${i}"  \
 --batch_size 1 \
 --test \
 --log_interval_local 5 \
