@@ -131,8 +131,8 @@ for epoch in range(num_epochs):
                 #pred, label, _ = evaluator.eval_test(sample_batched, model)
 
                 preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam)
-                slide_labels.append(labels.cpu())
-                slide_preds.append(preds.cpu())
+                slide_labels.append(labels.cpu().numpy())
+                slide_preds.append(preds.cpu().numpy())
                 
                 total += len(labels)
 
