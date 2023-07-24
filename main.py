@@ -7,7 +7,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import transforms
-
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score, precision_score, recall_score, f1_score
 from utils.dataset import GraphDataset
 from utils.lr_scheduler import LR_Scheduler
 from tensorboardX import SummaryWriter
@@ -117,7 +118,6 @@ for epoch in range(num_epochs):
         print("[%d/%d] train loss: %.3f; agg acc: %.3f" % (total_train_num, total_train_num, train_loss / total, trainer.get_scores()))
         trainer.plot_cm()
 
-
     if epoch % 1 == 0:
         with torch.no_grad():
             model.eval()
@@ -125,11 +125,14 @@ for epoch in range(num_epochs):
 
             total = 0.
             batch_idx = 0
-
+            slide_labels=[]
+            slide_preds=[]
             for i_batch, sample_batched in enumerate(dataloader_val):
                 #pred, label, _ = evaluator.eval_test(sample_batched, model)
 
                 preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam)
+                slide_labels.append(labels)
+                slide_preds.append(preds)
                 
                 total += len(labels)
 
@@ -139,7 +142,12 @@ for epoch in range(num_epochs):
                     print('[%d/%d] val agg acc: %.3f' % (total, total_val_num, evaluator.get_scores()))
                     evaluator.plot_cm()
 
+            auc = roc_auc_score(slide_labels, slide_preds[:, 1], average="macro")
+            fscore = f1_score(slide_labels, np.round(np.clip(slide_preds, 0, 1)), average="macro")
             print('[%d/%d] val agg acc: %.3f' % (total_val_num, total_val_num, evaluator.get_scores()))
+            print('[%d/%d] val AUC: %.3f' % (total_val_num, total_val_num, auc ))
+            print('[%d/%d] val fscore: %.3f' % (total_val_num, total_val_num, fscore))
+
             evaluator.plot_cm()
 
             # torch.cuda.empty_cache()
