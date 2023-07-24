@@ -97,4 +97,4 @@ class Classifier(nn.Module):
 
                 torch.save(cam, '/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/tmi/Colonoscopy/graphcam/{}_cam_{}.pt'.format(file_names[0][0],index_))
 
-        return pred,labels,loss
+        return pred,labels,loss, out
