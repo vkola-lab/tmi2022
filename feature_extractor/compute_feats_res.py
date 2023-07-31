@@ -144,7 +144,7 @@ def adj_matrix(wsi_coords,wsi_feats):
                 graphs.append(value)
                 adj_coords.append((i, j))
                 sum += 1
-            if sum == 9:
+            if sum == 5:
                 graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
                 graphs = np.exp(-graphs)
                 values.append(graphs)
