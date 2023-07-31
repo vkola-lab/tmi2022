@@ -13,6 +13,7 @@ import numpy as np
 from scipy.spatial import distance
 from sklearn.metrics import pairwise_distances
 import openslide
+from sklearn import preprocessing
 
 class ToPIL(object):
     def __call__(self, sample):
@@ -132,21 +133,27 @@ def adj_matrix(wsi_coords,wsi_feats):
     for i in range(total - 1):
         x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
         indices = neighbor_indices[i]
-
         sum = 0
         for j in indices:
+            graphs = []
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
             if abs(int(x_i) - int(x_j)) <= 512 and abs(int(y_i) - int(y_j)) <= 512:
                 m1 = np.expand_dims(wsi_feats[int(i)], axis=0)
                 m2 = np.expand_dims(wsi_feats[int(j)], axis=0)
-                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'cosine')[0][0]
-                values.append(value)
+                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'euclidean')[0][0]
+                graphs.append(value)
                 adj_coords.append((i, j))
                 sum += 1
             if sum == 9:
+                graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
+                graphs = np.exp(-graphs)
+                values.append(graphs)
                 break
-
-    return np.array(adj_coords), np.array(values)
+        graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
+        graphs = np.exp(-graphs)
+        values.append(graphs)
+    values = np.concatenate(values, axis=0)
+    return np.array(adj_coords), values
 
 
 def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
@@ -157,7 +164,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
         output_path = os.path.join(save_path, 'h5_files/')
 
-        slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
+        slide_file_path = os.path.join(data_slide_dir, slide_id +'.jpg')
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
         if os.path.exists(output_path_file):
             continue
