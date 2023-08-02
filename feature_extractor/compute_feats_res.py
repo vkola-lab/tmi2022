@@ -14,6 +14,7 @@ from scipy.spatial import distance
 from sklearn.metrics import pairwise_distances
 import openslide
 from sklearn import preprocessing
+import itertools
 
 class ToPIL(object):
     def __call__(self, sample):
@@ -152,10 +153,12 @@ def adj_matrix(wsi_coords,wsi_feats):
 
         graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
         graphs = np.exp(-graphs)
-        values.append(graphs)
-    values = np.vstack(values)
 
-    return np.array(adj_coords), values
+        values.append(graphs.tolist()[0])
+
+    values = list(itertools.chain(*values))
+
+    return np.array(adj_coords), np.array(values)
 
 
 def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
@@ -166,7 +169,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         slide_id = os.path.splitext(os.path.basename(bags_list[i]))[0]
         output_path = os.path.join(save_path, 'h5_files/')
 
-        slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
+        slide_file_path = os.path.join(data_slide_dir, slide_id +'.jpg')
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
         if os.path.exists(output_path_file):
             continue
