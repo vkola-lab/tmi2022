@@ -172,7 +172,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
 
-        dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([ transforms.ToTensor()]))
+        dataset = Whole_Slide_Bag_FP(file_path=bags_list[i],wsi=wsi, target_patch_size=224, custom_transforms=Compose([transforms.ToTensor()]))
         dataloader = DataLoader(dataset=dataset, batch_size=512, collate_fn=collate_features, drop_last=False, shuffle=False)
 
         mode = 'w'
@@ -180,7 +180,6 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_feats=[]
         for count, (batch, coords) in enumerate(dataloader):
             with torch.no_grad():
-
                 batch = batch.to(device, non_blocking=True)
                 wsi_coords.append(coords)
                 features, classes = i_classifier(batch)
@@ -193,7 +192,6 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
 
-
         adj_coords,similarities = generate_values_resnet(wsi_feats, wsi_coords)
         #adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
 
@@ -203,12 +201,11 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         file = h5py.File(output_path_file, "r")
 
-        print('features size: ', features.shape)
+        print('features size: ', wsi_feats.shape)
         print('adj_coords: ', file['adj_coords'][:].shape)
-        features = torch.from_numpy(features)
+        features = torch.from_numpy(wsi_feats)
         os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
         torch.save(features, os.path.join(save_path, 'pt_files', slide_id + '.pt'))
-
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 def main():
@@ -252,10 +249,9 @@ def main():
         name = k_0
         new_state_dict[name] = v
     i_classifier.load_state_dict(new_state_dict, strict=False)
-
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
-    compute_feats(bags_list, i_classifier, args.slide_dir ,args.output)
+    compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 
 if __name__ == '__main__':
