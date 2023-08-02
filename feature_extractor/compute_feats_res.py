@@ -153,7 +153,7 @@ def adj_matrix(wsi_coords,wsi_feats):
         graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
         graphs = np.exp(-graphs)
         values.append(graphs)
-    values = np.concatenate(values, axis=0)
+    values = np.vstack(values)
 
     return np.array(adj_coords), values
 
