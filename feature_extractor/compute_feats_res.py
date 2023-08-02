@@ -134,25 +134,27 @@ def adj_matrix(wsi_coords,wsi_feats):
         x_i, y_i = wsi_coords[i][0], wsi_coords[i][1]
         indices = neighbor_indices[i]
         sum = 0
+        graphs = []
         for j in indices:
-            graphs = []
+
             x_j, y_j = wsi_coords[j][0], wsi_coords[j][1]
+
             if abs(int(x_i) - int(x_j)) <= 512 and abs(int(y_i) - int(y_j)) <= 512:
                 m1 = np.expand_dims(wsi_feats[int(i)], axis=0)
                 m2 = np.expand_dims(wsi_feats[int(j)], axis=0)
                 value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), 'euclidean')[0][0]
+
                 graphs.append(value)
                 adj_coords.append((i, j))
                 sum += 1
             if sum == 5:
-                graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
-                graphs = np.exp(-graphs)
-                values.append(graphs)
                 break
+
         graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
         graphs = np.exp(-graphs)
         values.append(graphs)
     values = np.concatenate(values, axis=0)
+
     return np.array(adj_coords), values
 
 
@@ -192,8 +194,8 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
 
-        adj_coords,similarities = generate_values_resnet(wsi_feats, wsi_coords)
-        #adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
+        #adj_coords,similarities = generate_values_resnet(wsi_feats, wsi_coords)
+        adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
 
         asset_dict = {'adj_coords': adj_coords, 'similarities': similarities}
 
