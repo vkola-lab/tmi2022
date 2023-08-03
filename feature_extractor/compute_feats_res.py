@@ -148,7 +148,7 @@ def adj_matrix(wsi_coords,wsi_feats):
                 graphs.append(value)
                 adj_coords.append((i, j))
                 sum += 1
-            if sum == 9:
+            if sum == 5:
                 break
 
         graphs = preprocessing.normalize(np.array(graphs).reshape(1, -1), norm="l2")
@@ -171,8 +171,8 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
-        if os.path.exists(output_path_file):
-            continue
+        # if os.path.exists(output_path_file):
+        #     continue
 
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
@@ -256,6 +256,7 @@ def main():
     i_classifier.load_state_dict(new_state_dict, strict=False)
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
+    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5"]
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 
