@@ -108,7 +108,7 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
 
     """
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
-    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :4]
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
     columns = neighbor_indices.ravel()
     values = []
@@ -120,8 +120,8 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
             values.append(value)
             coords.append((row, column))
 
-    #values = np.reshape(values, (Idx.shape[0], Idx.shape[1]))
-    return np.array(coords), np.array(values)
+    values = np.reshape(values, (wsi_coords.shape[0], wsi_coords.shape[1]))
+    return neighbor_indices, np.array(values)
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
@@ -197,10 +197,10 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
 
-        #adj_coords,similarities = generate_values_resnet(wsi_feats, wsi_coords)
-        adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
+        neighbor_indices,similarities = generate_values_resnet(wsi_feats, wsi_coords)
+        #adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
 
-        asset_dict = {'adj_coords': adj_coords, 'similarities': similarities}
+        asset_dict = {'similarities': similarities, 'indices':neighbor_indices}
 
         save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
 
@@ -208,6 +208,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         print('features size: ', wsi_feats.shape)
         print('adj_coords: ', file['adj_coords'][:].shape)
+        print('similarities: ', file['similarities'][:].shape)
         features = torch.from_numpy(wsi_feats)
         os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
         torch.save(features, os.path.join(save_path, 'pt_files', slide_id + '.pt'))
@@ -256,7 +257,6 @@ def main():
     i_classifier.load_state_dict(new_state_dict, strict=False)
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
-    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070.h5"]
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 
