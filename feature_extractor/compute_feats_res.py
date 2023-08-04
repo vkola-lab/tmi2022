@@ -119,8 +119,7 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
             value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
 
-
-    values = np.reshape(values, (wsi_coords.shape[0], wsi_coords.shape[1]))
+    values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
     return neighbor_indices, np.array(values)
 
 def adj_matrix(wsi_coords,wsi_feats):
@@ -171,8 +170,8 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
-        # if os.path.exists(output_path_file):
-        #     continue
+        if os.path.exists(output_path_file):
+            continue
 
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
@@ -258,7 +257,6 @@ def main():
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
-
 
 if __name__ == '__main__':
     main()
