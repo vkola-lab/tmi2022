@@ -112,13 +112,13 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
     columns = neighbor_indices.ravel()
     values = []
-    coords=[]
+
     for row, column in zip(rows, columns):
             m1 = np.expand_dims(images[int(row)], axis=0)
             m2 = np.expand_dims(images[int(column)], axis=0)
             value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
-            coords.append((row, column))
+
 
     values = np.reshape(values, (wsi_coords.shape[0], wsi_coords.shape[1]))
     return neighbor_indices, np.array(values)
@@ -207,7 +207,7 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         file = h5py.File(output_path_file, "r")
 
         print('features size: ', wsi_feats.shape)
-        print('adj_coords: ', file['adj_coords'][:].shape)
+        print('indices: ', file['indices'][:].shape)
         print('similarities: ', file['similarities'][:].shape)
         features = torch.from_numpy(wsi_feats)
         os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
