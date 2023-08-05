@@ -108,7 +108,7 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
 
     """
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
-    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :4]
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
     columns = neighbor_indices.ravel()
     values = []
@@ -116,21 +116,18 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
     for row, column in zip(rows, columns):
             m1 = np.expand_dims(images[int(row)], axis=0)
             m2 = np.expand_dims(images[int(column)], axis=0)
-            value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
+            if (abs(int(wsi_coords[int(row)][0]) - int(wsi_coords[int(column)][0])))>=1024 and (abs(int(wsi_coords[int(row)][1]) - int(wsi_coords[int(column)][1])))>=1024 :
+                    value=np.inf
+            else:
+                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
 
     values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
-
-    # ids = patch_distances <= 512
-    #
-    # true_ids = []
-    # for row_id, col_id in zip(rows, neighbor_indices):
-    #     true_ids.append(ids[row_id, col_id])
-    # true_ids = np.reshape(true_ids, (wsi_coords.shape[0], neighbor_indices.shape[1]))
-    #
-    # values = np.where(true_ids, values, np.inf)
-
     return neighbor_indices, values
+
+
+
+
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
@@ -266,8 +263,7 @@ def main():
     i_classifier.load_state_dict(new_state_dict, strict=False)
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
-    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5",
-               "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070.h5"]
+
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 if __name__ == '__main__':
