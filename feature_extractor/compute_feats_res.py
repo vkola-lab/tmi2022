@@ -108,7 +108,7 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
 
     """
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
-    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :4]
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
     columns = neighbor_indices.ravel()
     values = []
@@ -124,10 +124,6 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
 
     values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
     return neighbor_indices, values
-
-
-
-
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
