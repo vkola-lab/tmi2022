@@ -267,7 +267,7 @@ def main():
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
     bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5",
-               "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070"]
+               "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070.h5"]
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 if __name__ == '__main__':
