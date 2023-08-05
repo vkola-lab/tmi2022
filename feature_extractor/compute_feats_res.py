@@ -266,7 +266,7 @@ def main():
     i_classifier.load_state_dict(new_state_dict, strict=False)
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
-    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5, "
+    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5",
                "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070"]
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
