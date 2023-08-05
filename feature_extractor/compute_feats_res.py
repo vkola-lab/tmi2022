@@ -120,7 +120,17 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
             values.append(value)
 
     values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
-    return neighbor_indices, np.array(values)
+
+    # ids = patch_distances <= 512
+    #
+    # true_ids = []
+    # for row_id, col_id in zip(rows, neighbor_indices):
+    #     true_ids.append(ids[row_id, col_id])
+    # true_ids = np.reshape(true_ids, (wsi_coords.shape[0], neighbor_indices.shape[1]))
+    #
+    # values = np.where(true_ids, values, np.inf)
+
+    return neighbor_indices, values
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
@@ -170,8 +180,8 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
 
         slide_file_path = os.path.join(data_slide_dir, slide_id +'.tif')
         output_path_file = os.path.join(save_path, 'h5_files/' + slide_id + '.h5')
-        if os.path.exists(output_path_file):
-            continue
+        # if os.path.exists(output_path_file):
+        #     continue
 
         wsi = openslide.open_slide(slide_file_path)
         os.makedirs(output_path, exist_ok=True)
@@ -256,6 +266,8 @@ def main():
     i_classifier.load_state_dict(new_state_dict, strict=False)
     os.makedirs(args.output, exist_ok=True)
     bags_list = glob.glob(args.dataset)
+    bags_list=["/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/tumor_035.h5, "
+               "/data/scratch/DBI/DUDBI/DYNCESYS/OlgaF/datasets/camelyon_data/size_256/patches/test_070"]
     compute_feats(bags_list, i_classifier, args.slide_dir, args.output)
 
 if __name__ == '__main__':
