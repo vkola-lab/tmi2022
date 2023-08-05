@@ -116,10 +116,10 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
     for row, column in zip(rows, columns):
             m1 = np.expand_dims(images[int(row)], axis=0)
             m2 = np.expand_dims(images[int(column)], axis=0)
-            if (abs(int(wsi_coords[int(row)][0]) - int(wsi_coords[int(column)][0])))>=1024 and (abs(int(wsi_coords[int(row)][1]) - int(wsi_coords[int(column)][1])))>=1024 :
-                    value=np.inf
-            else:
-                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
+            # if (abs(int(wsi_coords[int(row)][0]) - int(wsi_coords[int(column)][0])))>=1024 and (abs(int(wsi_coords[int(row)][1]) - int(wsi_coords[int(column)][1])))>=1024 :
+            #         value=np.inf
+            # else:
+            value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
 
     values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
