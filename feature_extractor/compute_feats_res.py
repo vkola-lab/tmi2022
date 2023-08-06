@@ -108,22 +108,23 @@ def generate_values_resnet(images, wsi_coords, dist="cosine"):
 
     """
     patch_distances = pairwise_distances(wsi_coords, metric='euclidean', n_jobs=1)
-    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :16]
+    neighbor_indices = np.argsort(patch_distances, axis=1)[:, :4]
     rows = np.asarray([[enum] * len(item) for enum, item in enumerate(neighbor_indices)]).ravel()
     columns = neighbor_indices.ravel()
     values = []
-
+    coords = []
     for row, column in zip(rows, columns):
             m1 = np.expand_dims(images[int(row)], axis=0)
             m2 = np.expand_dims(images[int(column)], axis=0)
-            if (abs(int(wsi_coords[int(row)][0]) - int(wsi_coords[int(column)][0])))>=1024 and (abs(int(wsi_coords[int(row)][1]) - int(wsi_coords[int(column)][1])))>=1024 :
-                    value=np.inf
-            else:
-                value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
+            # if (abs(int(wsi_coords[int(row)][0]) - int(wsi_coords[int(column)][0])))>=1024 and (abs(int(wsi_coords[int(row)][1]) - int(wsi_coords[int(column)][1])))>=1024 :
+            #         value=np.inf
+            # else:
+            value = distance.cdist(m1.reshape(1, -1), m2.reshape(1, -1), dist)[0][0]
             values.append(value)
+            coords.append((row, column))
 
-    values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
-    return neighbor_indices, values
+    #values = np.reshape(values, (wsi_coords.shape[0], neighbor_indices.shape[1]))
+    return np.array(coords), np.array(values), neighbor_indices
 
 def adj_matrix(wsi_coords,wsi_feats):
     total = wsi_coords.shape[0]
@@ -199,17 +200,16 @@ def compute_feats( bags_list, i_classifier, data_slide_dir, save_path):
         wsi_coords = np.vstack(wsi_coords)
         wsi_feats = np.vstack(wsi_feats)
 
-        neighbor_indices,similarities = generate_values_resnet(wsi_feats, wsi_coords)
+        adj_coords, similarities, neighbor_indices = generate_values_resnet(wsi_feats, wsi_coords)
         #adj_coords ,similarities = adj_matrix(wsi_coords, wsi_feats)
 
-        asset_dict = {'similarities': similarities, 'indices':neighbor_indices}
+        asset_dict = {'adj_coords': adj_coords, 'similarities': similarities, 'indices': neighbor_indices}
 
         save_hdf5(output_path_file, asset_dict, attr_dict=None, mode=mode)
 
         file = h5py.File(output_path_file, "r")
 
         print('features size: ', wsi_feats.shape)
-        print('indices: ', file['indices'][:].shape)
         print('similarities: ', file['similarities'][:].shape)
         features = torch.from_numpy(wsi_feats)
         os.makedirs(os.path.join(save_path, 'pt_files'), exist_ok=True)
