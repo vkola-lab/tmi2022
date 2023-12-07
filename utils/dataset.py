@@ -39,20 +39,33 @@ def eval_transforms(pretrained=False):
 class GraphDataset(data.Dataset):
     """input and label image dataset"""
 
-    def __init__(self, root, ids, target_patch_size=-1):
+    def __init__(self, root: str, ids: list[str], target_patch_size=-1, site: str | None = 'LUAD', classdict: dict[str, int] | None = None):
         super(GraphDataset, self).__init__()
         """
         Args:
 
-        fileDir(string):  directory with all the input images.
-        transform(callable, optional): Optional transform to be applied on a sample
+        root (string):  directory with all the input images.
+        ids (list[str]):  names and labels of every graph in the dataset, formatted as 'site/file_name\tlabel'.
+        target_patch_size (int):
+        site (str, optional):  name of the tumor site, if specified. Defaults to 'LUAD'.
+        classdict (dict[str, int], optional):  dictionary mapping class names to class indices, if specified. Defaults to None.
         """
         self.root = root
         self.ids = ids
         #self.target_patch_size = target_patch_size
-        self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
-        #self.classdict = {'normal': 0, 'tumor': 1}        #
-        #self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
+
+        if site in {'LUAD', 'LSCC'}:
+            self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
+        elif site == 'NLST':
+            self.classdict = {'normal': 0, 'tumor': 1}        #
+        elif site == 'TCGA':
+            self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
+        elif site is None:
+            self.classdict = None
+        else:
+            raise ValueError('Site not recognized: {}'.format(site))
+        self.site = site
+
         self._up_kwargs = {'mode': 'bilinear'}
 
     def __getitem__(self, index):
@@ -61,23 +74,36 @@ class GraphDataset(data.Dataset):
         file_name, label = info.split('\t')[0].rsplit('.', 1)[0], info.split('\t')[1]
         site, file_name = file_name.split('/')
 
+        # Default
+        if self.site is None:
+            file_path = self.root
+
         # if site =='CCRCC':
         #     file_path = self.root + 'CPTAC_CCRCC_features/simclr_files'
         if site =='LUAD' or site =='LSCC':
             site = 'LUNG'
-        file_path = self.root + 'CPTAC_{}_features/simclr_files'.format(site)       #_pre# with # rushin
+            file_path = self.root + 'CPTAC_{}_features/simclr_files'.format(site)       #_pre# with # rushin
 
         # For NLST only
-        if site =='NLST':
+        elif site =='NLST':
             file_path = self.root + 'NLST_Lung_features/simclr_files'
 
         # For TCGA only
-        if site =='TCGA':
+        elif site =='TCGA':
             file_name = info.split('\t')[0]
             _, file_name = file_name.split('/')
             file_path = self.root + 'TCGA_LUNG_features/simclr_files'       #_resnet_with
+        
+        else:
+            raise RuntimeError('Site not recognized: {}'.format(site))
 
-        sample['label'] = self.classdict[label]
+        if self.classdict is not None:
+            sample['label'] = self.classdict[label]
+        else:
+            try:
+                sample['label'] = int(label)
+            except ValueError:
+                raise ValueError(f'If no classdict is provided, labels must be integers. Got: {label}')
         sample['id'] = file_name
 
         #feature_path = os.path.join(self.root, file_name, 'features.pt')
