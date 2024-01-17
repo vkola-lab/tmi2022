@@ -73,6 +73,21 @@ class GraphDataset(data.Dataset):
         self.root = root
         self.ids = ids
         self.classdict = classdict
+        #self.target_patch_size = target_patch_size
+
+        # if site in {'LUAD', 'LSCC'}:
+        #     self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
+        # elif site == 'NLST':
+        #     self.classdict = {'normal': 0, 'tumor': 1}        #
+        # elif site == 'TCGA':
+        #     self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
+        # elif site is None:
+        #     self.classdict = None
+        # else:
+        #     raise ValueError('Site not recognized: {}'.format(site))
+        # self.site = site
+
+        # self._up_kwargs = {'mode': 'bilinear'}
 
     def __getitem__(self, index: int) -> dict[str, Any]:
         info = self.ids[index].replace('\n', '')
