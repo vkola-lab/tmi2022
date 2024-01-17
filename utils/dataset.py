@@ -1,40 +1,43 @@
+"""Dataset class for the graph classification task."""
+
 import os
+from typing import Any
+
 import torch
 import torch.utils.data as data
-import numpy as np
-from PIL import Image, ImageFile
-import random
-from torchvision.transforms import ToTensor
-from torchvision import transforms
-import cv2
-
-import torch.nn.functional as F
+# import numpy as np
+from PIL import ImageFile
+# from torchvision import transforms
+# import torch.nn.functional as F
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-def collate_features(batch):
-    img = torch.cat([item[0] for item in batch], dim = 0)
-    coords = np.vstack([item[1] for item in batch])
-    return [img, coords]
-    
-def eval_transforms(pretrained=False):
-    if pretrained:
-        mean = (0.485, 0.456, 0.406)
-        std = (0.229, 0.224, 0.225)
 
-    else:
-        mean = (0.5,0.5,0.5)
-        std = (0.5,0.5,0.5)
+# def collate_features(batch):
+#     img = torch.cat([item[0] for item in batch], dim=0)
+#     coords = np.vstack([item[1] for item in batch])
+#     return [img, coords]
 
-    trnsfrms_val = transforms.Compose(
-                    [
-                    transforms.Resize(224),
-                    transforms.ToTensor(),
-                    transforms.Normalize(mean = mean, std = std)
-                    ]
-                )
 
-    return trnsfrms_val
+# def eval_transforms(pretrained=False):
+#     if pretrained:
+#         mean = (0.485, 0.456, 0.406)
+#         std = (0.229, 0.224, 0.225)
+
+#     else:
+#         mean = (0.5, 0.5, 0.5)
+#         std = (0.5, 0.5, 0.5)
+
+#     trnsfrms_val = transforms.Compose(
+#         [
+#             transforms.Resize(224),
+#             transforms.ToTensor(),
+#             transforms.Normalize(mean=mean, std=std)
+#         ]
+#     )
+
+#     return trnsfrms_val
+
 
 class GraphDataset(data.Dataset):
     """input and label image dataset"""
@@ -68,8 +71,7 @@ class GraphDataset(data.Dataset):
 
         self._up_kwargs = {'mode': 'bilinear'}
 
-    def __getitem__(self, index):
-        sample = {}
+    def __getitem__(self, index: int) -> dict[str, Any]:
         info = self.ids[index].replace('\n', '')
         file_name, label = info.split('\t')[0].rsplit('.', 1)[0], info.split('\t')[1]
         site, file_name = file_name.split('/')
@@ -106,30 +108,22 @@ class GraphDataset(data.Dataset):
                 raise ValueError(f'If no classdict is provided, labels must be integers. Got: {label}')
         sample['id'] = file_name
 
-        #feature_path = os.path.join(self.root, file_name, 'features.pt')
-        feature_path = os.path.join(file_path, file_name, 'features.pt')
-
+        feature_path = os.path.join(graph_path, graph_name, 'features.pt')
         if os.path.exists(feature_path):
             features = torch.load(feature_path, map_location=lambda storage, loc: storage)
         else:
-            print(feature_path + ' not exists')
-            features = torch.zeros(1, 512)
+            raise FileNotFoundError(f'features.pt for {graph_name} doesn\'t exist')
 
-        #adj_s_path = os.path.join(self.root, file_name, 'adj_s.pt')
-        adj_s_path = os.path.join(file_path, file_name, 'adj_s.pt')
+        adj_s_path = os.path.join(graph_path, graph_name, 'adj_s.pt')
         if os.path.exists(adj_s_path):
             adj_s = torch.load(adj_s_path, map_location=lambda storage, loc: storage)
         else:
-            print(adj_s_path + ' not exists')
-            adj_s = torch.ones(features.shape[0], features.shape[0])
+            raise FileNotFoundError(f'adj_s.pt for {graph_name} doesn\'t exist')
 
-        #features = features.unsqueeze(0)
         sample['image'] = features
-        sample['adj_s'] = adj_s     #adj_s.to(torch.double)
-        # return {'image': image.astype(np.float32), 'label': label.astype(np.int64)}
+        sample['adj_s'] = adj_s
 
         return sample
-
 
     def __len__(self):
         return len(self.ids)
