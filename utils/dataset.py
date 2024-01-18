@@ -4,7 +4,7 @@ import os
 from typing import Any
 
 import torch
-import torch.utils.data as data
+from torch.utils import data
 # import numpy as np
 from PIL import ImageFile
 # from torchvision import transforms
@@ -45,7 +45,8 @@ class GraphDataset(data.Dataset):
     def __init__(self,
                  root: str,
                  ids: list[str],
-                 classdict: dict[str, int] = {'normal': 0, 'luad': 1, 'lscc': 2},
+                 site: str | None = 'LUAD',
+                 classdict: dict[str, int] | None = None,
                  target_patch_size: int | None = None,
                  ) -> None:
         """Create a GraphDataset.
@@ -72,20 +73,23 @@ class GraphDataset(data.Dataset):
         super(GraphDataset, self).__init__()
         self.root = root
         self.ids = ids
-        self.classdict = classdict
-        #self.target_patch_size = target_patch_size
+        # self.target_patch_size = target_patch_size
 
-        # if site in {'LUAD', 'LSCC'}:
-        #     self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}        #
-        # elif site == 'NLST':
-        #     self.classdict = {'normal': 0, 'tumor': 1}        #
-        # elif site == 'TCGA':
-        #     self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
-        # elif site is None:
-        #     self.classdict = None
-        # else:
-        #     raise ValueError('Site not recognized: {}'.format(site))
-        # self.site = site
+        if classdict is not None:
+            self.classdict = classdict
+        else:
+            if site is None:
+                raise ValueError('Site cannot be None if classdict is None')
+            if site in {'LUAD', 'LSCC'}:
+                self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}
+            elif site == 'NLST':
+                self.classdict = {'normal': 0, 'tumor': 1}
+            elif site == 'TCGA':
+                self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
+            else:
+                raise ValueError(f'Site {site} not recognized and classdict not provided')
+
+        self.site = site
 
         # self._up_kwargs = {'mode': 'bilinear'}
 
@@ -97,6 +101,9 @@ class GraphDataset(data.Dataset):
         except ValueError as exc:
             raise ValueError(
                 f"Invalid id format: {info}. Expected format is 'site/filename\tlabel'") from exc
+
+        if self.site is not None:
+            assert self.site == site, f'ID {index} is of site {site}, not {self.site}'
 
         if site in {'LUAD', 'LSCC'}:
             site = 'LUNG'
