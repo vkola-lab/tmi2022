@@ -144,6 +144,8 @@ class GraphDataset(data.Dataset):
             adj_s = torch.load(adj_s_path, map_location='cpu')
         else:
             raise FileNotFoundError(f'adj_s.pt for {graph_name} doesn\'t exist')
+        if adj_s.is_sparse:
+            adj_s = adj_s.to_dense()
 
         sample['image'] = features
         sample['adj_s'] = adj_s
