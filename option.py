@@ -25,6 +25,7 @@ class Options():
         parser.add_argument('--log_interval_local', type=int, default=10, help='classification classes')
         parser.add_argument('--resume', type=str, default="", help='path for model')
         parser.add_argument('--graphcam', action='store_true', default=False, help='GraphCAM')
+        parser.add_argument('--site', type=str, default="LUAD", help='site of the dataset, if using a canonical dataset')
 
         # the parser
         self.parser = parser
@@ -38,4 +39,8 @@ class Options():
 
         if args.test:
             args.num_epochs = 1
+
+        if args.site.strip().lower() == 'none':
+            args.site = None
+
         return args

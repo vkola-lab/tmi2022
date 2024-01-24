@@ -1,6 +1,7 @@
 """Dataset class for the graph classification task."""
 
 import os
+from warnings import warn
 from typing import Any
 
 import torch
@@ -79,8 +80,9 @@ class GraphDataset(data.Dataset):
             self.classdict = classdict
         else:
             if site is None:
-                raise ValueError('Site cannot be None if classdict is None')
-            if site in {'LUAD', 'LSCC'}:
+                warn('Neither site nor classdict provided. Assuming class labels are integers.')
+                self.classdict = None
+            elif site in {'LUAD', 'LSCC'}:
                 self.classdict = {'normal': 0, 'luad': 1, 'lscc': 2}
             elif site == 'NLST':
                 self.classdict = {'normal': 0, 'tumor': 1}
@@ -96,8 +98,11 @@ class GraphDataset(data.Dataset):
     def __getitem__(self, index: int) -> dict[str, Any]:
         info = self.ids[index].replace('\n', '')
         try:
-            graph_name, label = info.split('\t')[0].rsplit('.', 1)[0], info.split('\t')[1]
+            # Handle graph names with periods in them if site is None, otherwise preserve behavior
+            graph_name = info.split('\t')[0].rsplit('.', 1)[0] if (self.site is not None) else \
+                info.split('\t')[0]
             site, graph_name = graph_name.split('/')
+            label = info.split('\t')[1]
         except ValueError as exc:
             raise ValueError(
                 f"Invalid id format: {info}. Expected format is 'site/filename\tlabel'") from exc
@@ -119,7 +124,7 @@ class GraphDataset(data.Dataset):
         graph_path = os.path.join(graph_path, 'simclr_files')
 
         sample: dict[str, Any] = {}
-        sample['label'] = self.classdict[label]
+        sample['label'] = self.classdict[label] if (self.classdict is not None) else int(label)
         sample['id'] = graph_name
 
         feature_path = os.path.join(graph_path, graph_name, 'features.pt')
