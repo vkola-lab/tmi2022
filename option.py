@@ -13,6 +13,7 @@ class Options():
         parser = argparse.ArgumentParser(description='PyTorch Classification')
         # model and dataset 
         parser.add_argument('--n_class', type=int, default=4, help='classification classes')
+        parser.add_argument('--n_features', type=int, default=512, help='number of features per node in the graph')
         parser.add_argument('--data_path', type=str, help='path to dataset where images store')
         parser.add_argument('--train_set', type=str, help='train')
         parser.add_argument('--val_set', type=str, help='validation')

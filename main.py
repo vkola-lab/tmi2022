@@ -62,7 +62,7 @@ print("creating models......")
 num_epochs = args.num_epochs
 learning_rate = args.lr
 
-model = Classifier(n_class)
+model = Classifier(n_class, n_features=args.n_features)
 model = nn.DataParallel(model)
 if args.resume:
     print('load model{}'.format(args.resume))
@@ -104,7 +104,7 @@ for epoch in range(num_epochs):
             sample_batched['image'] = [image.to(device) for image in sample_batched['image']]
             sample_batched['adj_s'] = [adj_s.to(device) for adj_s in sample_batched['adj_s']]
 
-            preds,labels,loss = trainer.train(sample_batched, model)
+            preds,labels,loss = trainer.train(sample_batched, model, n_features=args.n_features)
 
             optimizer.zero_grad()
             loss.backward()
@@ -135,7 +135,7 @@ for epoch in range(num_epochs):
 
             for i_batch, sample_batched in enumerate(dataloader_val):
                 #pred, label, _ = evaluator.eval_test(sample_batched, model)
-                preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam)
+                preds, labels, _ = evaluator.eval_test(sample_batched, model, graphcam, n_features=args.n_features)
                 
                 total += len(labels)
 
