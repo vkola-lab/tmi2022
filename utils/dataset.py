@@ -56,8 +56,15 @@ class GraphDataset(data.Dataset):
             root (str): Path to the dataset's root directory.
             ids (list[str]): List of ids of the images to load.
                 Each id should be a string in the format "site/graph_name\tlabel".
-            classdict (dict[str, int]): Dictionary mapping the class names to the class indices.
-            target_patch_size (int | None): Size of the patches to extract from the images.
+            site (str | None): Name of the canonical tissue site the images from. The only sites
+                that are recognized as canonical (i.e., they have a pre-defined classdict) are
+                'LUAD', 'LSCC', 'NLST', and 'TCGA'. If your dataset is not a canonical site, leave
+                this as None. 
+            classdict (dict[str, int]): Dictionary mapping the class names to the class indices. Not
+                needed if your dataset is a canonical site or your labels are already 0-indexed
+                positive consecutive integers.
+            target_patch_size (int | None): Size of the patches to extract from the images. (Not
+                used.)
 
         The dataset directory structure should be as follows:
         root/
@@ -90,7 +97,6 @@ class GraphDataset(data.Dataset):
                 self.classdict = {'Normal': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
             else:
                 raise ValueError(f'Site {site} not recognized and classdict not provided')
-
         self.site = site
 
         # self._up_kwargs = {'mode': 'bilinear'}
@@ -129,13 +135,17 @@ class GraphDataset(data.Dataset):
 
         feature_path = os.path.join(graph_path, graph_name, 'features.pt')
         if os.path.exists(feature_path):
-            features = torch.load(feature_path, map_location=lambda storage, loc: storage)
+            features = torch.load(feature_path, map_location='cpu')
+            if torch.cuda.is_available():
+                features = features.to('cuda')
         else:
             raise FileNotFoundError(f'features.pt for {graph_name} doesn\'t exist')
 
         adj_s_path = os.path.join(graph_path, graph_name, 'adj_s.pt')
         if os.path.exists(adj_s_path):
-            adj_s = torch.load(adj_s_path, map_location=lambda storage, loc: storage)
+            adj_s = torch.load(adj_s_path, map_location='cpu')
+            if torch.cuda.is_available():
+                adj_s = adj_s.to('cuda')
         else:
             raise FileNotFoundError(f'adj_s.pt for {graph_name} doesn\'t exist')
 
