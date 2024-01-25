@@ -51,7 +51,7 @@ if train:
     total_train_num = len(dataloader_train) * batch_size
 
 ids_val = open(args.val_set).readlines()
-dataset_val = GraphDataset(os.path.join(data_path, ""), ids_val)
+dataset_val = GraphDataset(os.path.join(data_path, ""), ids_val, site=args.site)
 dataloader_val = torch.utils.data.DataLoader(dataset=dataset_val, batch_size=batch_size, num_workers=10, collate_fn=collate, shuffle=False, pin_memory=True)
 total_val_num = len(dataloader_val) * batch_size
     
