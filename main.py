@@ -86,7 +86,7 @@ if not test:
 trainer = Trainer(n_class)
 evaluator = Evaluator(n_class)
 
-best_pred = 0.0
+best_pred = None
 for epoch in range(num_epochs):
     # optimizer.zero_grad()
     model.train()
@@ -94,7 +94,7 @@ for epoch in range(num_epochs):
     total = 0.
 
     current_lr = optimizer.param_groups[0]['lr']
-    print('\n=>Epoches %i, learning rate = %.7f, previous best = %.4f' % (epoch+1, current_lr, best_pred))
+    print('\n=>Epoches %i, learning rate = %.7f' % (epoch+1, current_lr) + (', previous best = %.4f' % best_pred if (best_pred is not None) else ''))
 
     if train:
         for i_batch, sample_batched in enumerate(dataloader_train):
@@ -148,7 +148,7 @@ for epoch in range(num_epochs):
             # torch.cuda.empty_cache()
 
             val_acc = evaluator.get_scores()
-            if val_acc > best_pred: 
+            if (best_pred is None) or (val_acc > best_pred): 
                 best_pred = val_acc
                 if not test:
                     print("saving model...")
