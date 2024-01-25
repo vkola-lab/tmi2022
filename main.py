@@ -152,7 +152,7 @@ for epoch in range(num_epochs):
                 best_pred = val_acc
                 if not test:
                     print("saving model...")
-                    torch.save(model.state_dict(), model_path + task_name + ".pth")
+                    torch.save(model.state_dict(), os.path.join(model_path, task_name + ".pth"))
 
             log = ""
             log = log + 'epoch [{}/{}] ------ acc: train = {:.4f}, val = {:.4f}'.format(epoch+1, num_epochs, trainer.get_scores(), evaluator.get_scores()) + "\n"
