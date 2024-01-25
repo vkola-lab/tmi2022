@@ -55,13 +55,14 @@ class Classifier(nn.Module):
         if graphcam_flag:
             s_matrix = torch.argmax(s[0], dim=1)
             from os import path
-            torch.save(s_matrix, 'graphcam/s_matrix.pt')
-            torch.save(s[0], 'graphcam/s_matrix_ori.pt')
+            os.makedirs('graphcam', exist_ok=True)
+            torch.save(s_matrix, path.join('graphcam', 's_matrix.pt'))
+            torch.save(s[0], path.join('graphcam', 's_matrix_ori.pt'))
             
-            if path.exists('graphcam/att_1.pt'):
-                os.remove('graphcam/att_1.pt')
-                os.remove('graphcam/att_2.pt')
-                os.remove('graphcam/att_3.pt')
+            if path.exists(path.join('graphcam', 'att_1.pt')):
+                os.remove(path.join('graphcam', 'att_1.pt'))
+                os.remove(path.join('graphcam', 'att_2.pt'))
+                os.remove(path.join('graphcam', 'att_3.pt'))
     
         X, adj, mc1, o1 = dense_mincut_pool(X, adj, s, mask)
         b, _, _ = X.shape
@@ -79,7 +80,7 @@ class Classifier(nn.Module):
         if graphcam_flag:
             print('GraphCAM enabled')
             p = F.softmax(out)
-            torch.save(p, 'graphcam/prob.pt')
+            torch.save(p, path.join('graphcam', 'prob.pt'))
             index = np.argmax(out.cpu().data.numpy(), axis=-1)
 
             for index_ in range(p.size(1)):
@@ -95,6 +96,6 @@ class Classifier(nn.Module):
                 cam = self.transformer.relprop(torch.tensor(one_hot_vector).to(X.device), method="transformer_attribution", is_ablation=False, 
                                             start_layer=0, **kwargs)
 
-                torch.save(cam, 'graphcam/cam_{}.pt'.format(index_))
+                torch.save(cam, path.join('graphcam', 'cam_{}.pt'.format(index_)))
 
         return pred,labels,loss
